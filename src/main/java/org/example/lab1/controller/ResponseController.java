@@ -1,7 +1,6 @@
 package org.example.lab1.controller;
 
 import org.example.lab1.model.CarModels;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
