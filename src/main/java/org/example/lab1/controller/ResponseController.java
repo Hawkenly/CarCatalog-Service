@@ -1,4 +1,4 @@
-package org.example.lab1.Controller;
+package org.example.lab1.controller;
 
 import org.example.lab1.model.CarModels;
 
