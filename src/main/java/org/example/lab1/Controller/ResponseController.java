@@ -12,15 +12,16 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("cars")
 public class ResponseController {
     private final RestTemplate restTemplate=new RestTemplate();
-    String URL="https://cars-base.ru/api/cars";
+    String URL_ALL="https://cars-base.ru/api/cars";
+    String URL_ID="https://cars-base.ru/api/cars/{id}";
     @GetMapping("all")
     public CarModels getResponseAll() {
-        String response=restTemplate.getForObject(URL,String.class);
+        String response=restTemplate.getForObject(URL_ALL,String.class);
         return new CarModels(response);
     }
     @GetMapping("mark")
     public CarModels getResponseId(@RequestParam(value="id", required = false, defaultValue = "AC")String id) {
-       String response= restTemplate.getForObject(URL+"/"+id,String.class);
+       String response= restTemplate.getForObject(URL_ID,String.class,id);
        return new CarModels(response);
     }
 }
