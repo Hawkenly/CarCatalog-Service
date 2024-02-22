@@ -1,4 +1,4 @@
-package org.example.carCatalog;
+package org.example.carcatalog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

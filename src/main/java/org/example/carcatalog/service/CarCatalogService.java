@@ -1,12 +1,13 @@
-package org.example.carCatalog.service;
+package org.example.carcatalog.service;
 
-import org.example.carCatalog.model.Car;
+import org.example.carcatalog.model.Car;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
 @Service
 public class CarCatalogService {
+    private CarCatalogService(){}
     public static Car checkMark(String mark, String audi, String ac){
         if(Objects.equals(mark, "AUDI"))
             return new Car(audi);

@@ -1,7 +1,7 @@
-package org.example.carCatalog.controller;
+package org.example.carcatalog.controller;
 
-import org.example.carCatalog.model.Car;
-import org.example.carCatalog.service.CarCatalogService;
+import org.example.carcatalog.model.Car;
+import org.example.carcatalog.service.CarCatalogService;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
