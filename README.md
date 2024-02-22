@@ -14,5 +14,5 @@ Java and Spring Framework
 # Testing
 The result is returned as JSON.
 
-Result for a request: http://localhost:8080/cars/  -  {"response":"{id: AUDI, name: AUDI, popular: true, country: Германия},{id: AC, name: AC, popular:false, country: Великобритания)"}
+Result for a request: http://localhost:8080/cars/  -  {"response":"{id: AUDI, name: AUDI, popular: true, country: Германия},{id: AC, name: AC, popular:false, country: Великобритания"}
 
