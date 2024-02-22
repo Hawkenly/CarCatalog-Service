@@ -1,6 +1,6 @@
-package org.example.lab1.service;
+package org.example.CarCatalog.service;
 
-import org.example.lab1.model.CarModels;
+import org.example.CarCatalog.model.CarModels;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;

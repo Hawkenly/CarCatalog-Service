@@ -1,4 +1,4 @@
-package org.example.lab1.model;
+package org.example.CarCatalog.model;
 
 public record CarModels(String response){}
 
