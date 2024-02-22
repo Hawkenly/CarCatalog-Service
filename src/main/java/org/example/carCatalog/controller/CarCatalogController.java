@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class CarCatalogController {
     String audi="{id: AUDI, name: AUDI, popular: true, country: Германия}";
     String ac="{id: AC, name: AC, popular:false, country: Великобритания)";
-    @GetMapping("mark")
+    @GetMapping()
     public Car getResponseMark(@RequestParam(value = "mark", required = false, defaultValue = "AUDI") String mark){
         return CarCatalogService.checkMark(mark,audi,ac);
     }
-    @GetMapping()
+    @GetMapping("/")
     public Car getResponse(){
         String response=audi+ac;
         return new Car(response);
