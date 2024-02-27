@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("cars")
 public class CarCatalogController {
-    String audi="{id: AUDI, name: AUDI, popular: true, country: Германия}";
-    String ac="{id: AC, name: AC, popular:false, country: Великобритания}";
+    String audi="id: AUDI,name: AUDI,popular: true,country: Германия";
+    String ac="id: AC,name: AC,popular:false,country: Великобритания";
     @GetMapping()
     public Car getResponseMark(@RequestParam(value = "mark", required = false, defaultValue = "AUDI") String mark){
         return CarCatalogService.checkMark(mark,audi,ac);
     }
     @GetMapping("/")
-    public Car getResponse(){
-        String response=audi+','+ac;
-        return new Car(response);
+    public Car[] getResponse(){
+        return new Car[]{CarCatalogService.checkMark("AUDI",audi,ac),CarCatalogService.checkMark("AC",audi,ac)};
     }
 }

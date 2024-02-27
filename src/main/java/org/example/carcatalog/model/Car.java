@@ -1,4 +1,4 @@
 package org.example.carcatalog.model;
 
-public record Car(String response){}
+public record Car(String id, String name, String popular, String country){}
 

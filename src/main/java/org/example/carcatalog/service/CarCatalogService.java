@@ -9,12 +9,15 @@ import java.util.Objects;
 public class CarCatalogService {
     private CarCatalogService(){}
     public static Car checkMark(String mark, String audi, String ac){
-        if(Objects.equals(mark, "AUDI"))
-            return new Car(audi);
-        else if (Objects.equals(mark, "AC"))
-            return new Car(ac);
+        if(Objects.equals(mark, "AUDI")) {
+            String[] parts=audi.split("[ ,]");
+            return new Car(parts[1],parts[3],parts[5],parts[7]);
+        }
+        else if (Objects.equals(mark, "AC")) {
+            String[] parts=ac.split("[ ,]");
+            return new Car(parts[1],parts[3],parts[5],parts[7]);
+        }
         else
-            return new Car("Incorrect ID");
-
+            return new Car("undefined","undefined","undefined","undefined");
     }
 }
