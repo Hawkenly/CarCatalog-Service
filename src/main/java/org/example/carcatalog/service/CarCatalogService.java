@@ -9,6 +9,7 @@ import java.util.Objects;
 public class CarCatalogService {
     private CarCatalogService(){}
     public static Car checkMark(String mark, String audi, String ac){
+        String UNDEFINED="undefined";
         if(Objects.equals(mark, "AUDI")) {
             String[] parts=audi.split("[ ,]");
             return new Car(parts[1],parts[3],parts[5],parts[7]);
@@ -18,6 +19,6 @@ public class CarCatalogService {
             return new Car(parts[1],parts[3],parts[5],parts[7]);
         }
         else
-            return new Car("undefined","undefined","undefined","undefined");
+            return new Car(UNDEFINED,UNDEFINED,UNDEFINED,UNDEFINED);
     }
 }
