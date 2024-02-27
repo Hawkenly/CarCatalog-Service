@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("cars")
 public class CarCatalogController {
     String audi="id: AUDI,name: AUDI,popular: true,country: Германия";
-    String ac="id: AC,name: AC,popular:false,country: Великобритания";
+    String ac="id: AC,name: AC,popular: false,country: Великобритания";
     @GetMapping()
     public Car getResponseMark(@RequestParam(value = "mark", required = false, defaultValue = "AUDI") String mark){
         return CarCatalogService.checkMark(mark,audi,ac);
