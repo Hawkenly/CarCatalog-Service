@@ -1,5 +1,7 @@
 package org.example.carcatalog.controller;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.example.carcatalog.model.Car;
 import org.example.carcatalog.service.CarCatalogService;
 
@@ -9,8 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("cars")
+@RequiredArgsConstructor
 public class CarCatalogController {
-    CarCatalogService service;
+    @NonNull
+    private CarCatalogService service;
     String audi="id: AUDI,name: AUDI,popular: true,country: Германия";
     String ac="id: AC,name: AC,popular: false,country: Великобритания";
     @GetMapping
