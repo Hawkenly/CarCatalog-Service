@@ -1,4 +1,12 @@
 package org.example.carcatalog.model;
 
-public record Car(String id, String name, String popular, String country){}
+import lombok.*;
 
+@Data
+@Builder
+public class Car{
+    private String id;
+    private String name;
+    private String popular;
+    private String country;
+}

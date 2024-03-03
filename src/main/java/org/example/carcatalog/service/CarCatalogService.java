@@ -7,18 +7,17 @@ import java.util.Objects;
 
 @Service
 public class CarCatalogService {
-    private CarCatalogService(){}
-    public static Car checkMark(String mark, String audi, String ac){
+    public Car checkMark(String mark, String audi, String ac){
         String undefined="undefined";
         if(Objects.equals(mark, "AUDI")) {
             String[] parts=audi.split("[ ,]");
-            return new Car(parts[1],parts[3],parts[5],parts[7]);
+            return Car.builder().id(parts[1]).name(parts[3]).popular(parts[5]).country(parts[7]).build();
         }
         else if (Objects.equals(mark, "AC")) {
             String[] parts=ac.split("[ ,]");
-            return new Car(parts[1],parts[3],parts[5],parts[7]);
+            return Car.builder().id(parts[1]).name(parts[3]).popular(parts[5]).country(parts[7]).build();
         }
         else
-            return new Car(undefined,undefined,undefined,undefined);
+            return Car.builder().id(undefined).name(undefined).popular(undefined).country(undefined).build();
     }
 }
