@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("cars")
 @AllArgsConstructor
-public class CarController {
+public class    CarController {
 
     private final CarService carService;
 

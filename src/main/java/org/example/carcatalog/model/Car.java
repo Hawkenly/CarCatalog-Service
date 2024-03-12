@@ -21,7 +21,7 @@ public class Car {
     @JoinColumn(name = "car_id")
     private List<CarModel> models = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(name = "car_color",
             joinColumns = @JoinColumn(name = "car_id"),
             inverseJoinColumns = @JoinColumn(name = "color_id")
