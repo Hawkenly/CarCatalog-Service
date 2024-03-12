@@ -18,7 +18,6 @@ public class Car {
     private String popular;
     private String country;
     @OneToMany
-    @JoinColumn(name = "car_id")
     private List<CarModel> models = new ArrayList<>();
 
     @ManyToMany()
