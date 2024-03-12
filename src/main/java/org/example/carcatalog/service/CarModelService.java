@@ -29,7 +29,7 @@ public class CarModelService {
     @Transactional
     public CarModel updateModel(Long id, CarModel model){
         CarModel modelToUpdate = getModel(id);
-        modelToUpdate.setModel(model.getModel());;
+        modelToUpdate.setModel(model.getModel());
         return modelToUpdate;
     }
 
