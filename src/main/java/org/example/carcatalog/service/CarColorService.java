@@ -2,6 +2,7 @@ package org.example.carcatalog.service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.example.carcatalog.model.Car;
 import org.example.carcatalog.model.CarColor;
 import org.example.carcatalog.model.exception.ColorNotFoundException;
 import org.example.carcatalog.repository.CarColorRepository;
@@ -35,6 +36,10 @@ public class CarColorService {
 
     public void removeColor(Long id){
         CarColor color = getColor(id);
+        List<Car> cars= color.getCars();
+        for(Car car: cars){
+            car.getColors().remove(color);
+        }
         carColorRepository.delete(color);
     }
 }
