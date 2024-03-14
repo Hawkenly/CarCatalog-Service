@@ -28,19 +28,19 @@ public class Car {
     )
     private List<CarColor> colors = new ArrayList<>();
 
-    public void addModel(CarModel model){
+    public void addModel(CarModel model) {
         models.add(model);
     }
 
-    public void removeModel(CarModel model){
+    public void removeModel(CarModel model) {
         models.remove(model);
     }
 
-    public void addColor(CarColor color){
+    public void addColor(CarColor color) {
         colors.add(color);
     }
 
-    public void removeColor(CarColor color){
+    public void removeColor(CarColor color) {
         colors.remove(color);
     }
 }
