@@ -38,7 +38,7 @@ public class    CarController {
         carService.removeCar(id);
     }
 
-    @PutMapping("{carId}/models/{modelId}/add")
+    @PostMapping("{carId}/models/{modelId}/add")
     public Car addModelToCar(@PathVariable Long carId, @PathVariable Long modelId){
         return carService.addModelToCar(carId,modelId);
     }
