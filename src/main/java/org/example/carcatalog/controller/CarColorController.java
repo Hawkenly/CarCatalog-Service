@@ -37,6 +37,4 @@ public class CarColorController {
     public void removeColor(@RequestParam Long id){
         carColorService.removeColor(id);
     }
-
-
 }
