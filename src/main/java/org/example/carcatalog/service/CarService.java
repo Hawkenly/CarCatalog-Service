@@ -68,6 +68,11 @@ public class CarService {
    public Car addColorToCar(Long carId, Long colorId){
        Car car = getCar(carId);
        CarColor carColor = carColorService.getColor(colorId);
+       List<Car> cars= carColor.getCars();
+       int index =-1;
+       index= cars.indexOf(car);
+       if (index !=-1)
+           return car;
 
        car.addColor(carColor);
        carColor.addCar(car);

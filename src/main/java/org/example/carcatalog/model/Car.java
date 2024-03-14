@@ -17,10 +17,11 @@ public class Car {
     private String name;
     private String popular;
     private String country;
-    @OneToMany()
+    @OneToMany
+    @JoinColumn(name = "car_id")
     private List<CarModel> models = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "car_color",
             joinColumns = @JoinColumn(name = "car_id"),
             inverseJoinColumns = @JoinColumn(name = "color_id")

@@ -15,7 +15,6 @@ public class CarModel {
     private String model;
 
     @JsonIgnore
-    @ManyToOne()
-    @JoinColumn(name = "car_id")
+    @ManyToOne
     private Car car;
 }
