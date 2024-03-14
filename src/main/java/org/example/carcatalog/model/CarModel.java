@@ -15,7 +15,7 @@ public class CarModel {
     private String model;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "car_id")
     private Car car;
 }

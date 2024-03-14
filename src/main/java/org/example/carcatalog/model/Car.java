@@ -17,7 +17,7 @@ public class Car {
     private String name;
     private String popular;
     private String country;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany()
     private List<CarModel> models = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
