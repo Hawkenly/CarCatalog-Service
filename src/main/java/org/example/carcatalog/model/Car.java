@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -42,5 +43,9 @@ public class Car {
 
     public void removeColor(CarColor color) {
         colors.remove(color);
+    }
+    @Override
+    public String toString(){
+        return id.toString();
     }
 }

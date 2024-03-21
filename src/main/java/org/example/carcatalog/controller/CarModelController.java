@@ -24,6 +24,16 @@ public class CarModelController {
         return carModelService.getModel(id);
     }
 
+    @GetMapping("fromCar")
+    public List<CarModel> getModelsByCar(@RequestParam Long id){
+        return carModelService.getCarModelsByCar(id);
+    }
+
+    @GetMapping("fromCarNative")
+    public List<CarModel> getModelsByCarNative(@RequestParam Long id){
+        return carModelService.getCarModelsByCarNative(id);
+    }
+
     @PostMapping("add")
     public CarModel saveCar(@RequestBody CarModel model){
         return carModelService.saveModel(model);

@@ -17,4 +17,9 @@ public class CarModel {
     @JsonIgnore
     @ManyToOne
     private Car car;
+
+    @Override
+    public String toString(){
+        return id.toString();
+    }
 }
