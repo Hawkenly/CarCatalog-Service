@@ -32,12 +32,10 @@ public class CarService {
        Car car;
        if(carSimpleCache.containsKey(id.toString())) {
            car = (Car) carSimpleCache.get(id.toString());
-           System.out.println("Read car from cache (get)");
        }
        else {
            car = carRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
            carSimpleCache.put(id.toString(),car);
-           System.out.println("Write car to cache (get)");
        }
        return car;
    }
@@ -45,7 +43,6 @@ public class CarService {
    public Car saveCar(Car car){
        carRepository.save(car);
        carSimpleCache.put(car.getId().toString(),car);
-       System.out.println("Write car to cache (post)");
        return car;
    }
 
@@ -64,7 +61,6 @@ public class CarService {
        Car car = getCar(id);
        carRepository.delete(car);
        carSimpleCache.remove(id.toString());
-       System.out.println("Delete car from cache (delete)");
    }
 
    @Transactional

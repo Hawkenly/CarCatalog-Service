@@ -27,12 +27,10 @@ public class CarModelService {
         CarModel carModel;
         if(modelSimpleCache.containsKey(id.toString())) {
             carModel = (CarModel) modelSimpleCache.get(id.toString());
-            System.out.println("Read model from cache (get)");
         }
         else {
             carModel = carModelRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
             modelSimpleCache.put(id.toString(),carModel);
-            System.out.println("Write model to cache (get)");
         }
         return carModel;
     }
@@ -49,7 +47,6 @@ public class CarModelService {
         carModelRepository.save(model);
         if(!modelSimpleCache.containsKey(model.getId().toString())) {
             modelSimpleCache.put(model.getId().toString(), model);
-            System.out.println("Write model to cache (post)");
         }
         return model;
     }
@@ -76,6 +73,5 @@ public class CarModelService {
         }
         carModelRepository.delete(model);
         modelSimpleCache.remove(id.toString());
-        System.out.println("Delete model from cache (delete)");
     }
 }
