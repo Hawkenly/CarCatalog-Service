@@ -15,4 +15,10 @@ public class SimpleCache<K, V> extends LinkedHashMap<K,V> {
   protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
     return size() > cacheSize;
   }
+
+  @Override
+  public boolean equals(Object obj){
+    if (!super.equals(obj)) return false;
+    return cacheSize.equals (((SimpleCache<V, K>) obj).cacheSize);
+  }
 }
