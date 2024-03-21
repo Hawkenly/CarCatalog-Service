@@ -9,10 +9,10 @@ import java.util.LinkedHashMap;
 @Component
 public class SimpleCache<K, V> extends LinkedHashMap<K,V> {
 
-  @Value("${cache.size}")
-  private Long size;
+  @Value("${cache.cacheSize}")
+  private Long cacheSize;
   @Override
   protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
-    return size() > size;
+    return size() > cacheSize;
   }
 }

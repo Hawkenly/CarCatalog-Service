@@ -15,4 +15,4 @@ spring:
         format_sql: true
 
 cache:
-  size: 1
+  cacheSize: 1
