@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("colors")
 @AllArgsConstructor
-public final class CarColorController {
+public class CarColorController {
     /**
      * Поле сервис цвета автомобиля.
      */

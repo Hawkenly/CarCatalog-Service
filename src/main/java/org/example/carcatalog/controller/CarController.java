@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("cars")
 @AllArgsConstructor
-public final class CarController {
+public  class CarController {
     /**
      * Поле автомобильный сервис.
      */

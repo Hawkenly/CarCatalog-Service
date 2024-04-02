@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("models")
 @AllArgsConstructor
-public final class CarModelController {
+public  class CarModelController {
     /**
      * Поле сервис модели автомобиля.
      */
