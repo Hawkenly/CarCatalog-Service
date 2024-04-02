@@ -25,10 +25,10 @@ public class CarService {
     private final CarModelService carModelService;
     private final CarColorService carColorService;
     private final SimpleCache<String, Object> carSimpleCache;
-    private static final Logger LOGGER = LogManager.getLogger(CarModelService.class);
+    private static final Logger MY_LOGGER = LogManager.getLogger(CarModelService.class);
 
    public List<Car> getAllCars() {
-       LOGGER.info("All cars were received from a DB.");
+       MY_LOGGER.info("All cars were received from a DB.");
        return carRepository.findAll();
    }
    public Car getCar(Long id) {
@@ -39,13 +39,13 @@ public class CarService {
            car = carRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
            carSimpleCache.put(id.toString(), car);
        }
-       LOGGER.info("Car with id:" + id + "was received from a DB.");
+       MY_LOGGER.info("Car with id:" + id + "was received from a DB.");
        return car;
    }
    public Car saveCar(Car car) {
        carRepository.save(car);
        carSimpleCache.put(car.getId().toString(), car);
-       LOGGER.info("Car was saved a DB.");
+       MY_LOGGER.info("Car was saved a DB.");
        return car;
    }
 
@@ -57,7 +57,7 @@ public class CarService {
        carToUpdate.setPopular(car.getPopular());
        carToUpdate.setCountry(car.getCountry());
        carSimpleCache.put(id.toString(), car);
-       LOGGER.info("Car with id:" + id + "was updated in a DB.");
+       MY_LOGGER.info("Car with id:" + id + "was updated in a DB.");
        return carToUpdate;
    }
 
@@ -65,7 +65,7 @@ public class CarService {
        Car car = getCar(id);
        carRepository.delete(car);
        carSimpleCache.remove(id.toString());
-       LOGGER.info("Car with id:" + id + "was removed from a DB.");
+       MY_LOGGER.info("Car with id:" + id + "was removed from a DB.");
    }
 
    @Transactional
@@ -80,7 +80,7 @@ public class CarService {
        carModel.setCar(car);
        carSimpleCache.remove(carId.toString());
        carSimpleCache.put(carId.toString(), car);
-       LOGGER.info("Model with id:" + modelId + "was added to a car with id:" + carId);
+       MY_LOGGER.info("Model with id:" + modelId + "was added to a car with id:" + carId);
        return car;
    }
    @Transactional
@@ -94,7 +94,7 @@ public class CarService {
        carModel.setCar(null);
        carSimpleCache.clear();
        carRepository.save(car);
-       LOGGER.info("Model with id:" + modelId + "was removed from a car with id:" + carId);
+       MY_LOGGER.info("Model with id:" + modelId + "was removed from a car with id:" + carId);
    }
    @Transactional
    public Car addColorToCar(Long carId, Long colorId) {
@@ -108,7 +108,7 @@ public class CarService {
        }
        car.addColor(carColor);
        carColor.addCar(car);
-       LOGGER.info("Color with id:" + colorId + "was added to a car with id:" + carId);
+       MY_LOGGER.info("Color with id:" + colorId + "was added to a car with id:" + carId);
        return car;
    }
 
@@ -118,6 +118,6 @@ public class CarService {
        CarColor carColor = carColorService.getColor(colorId);
        car.removeColor(carColor);
        carColor.removeCar(car);
-       LOGGER.info("Model with id:" + colorId + "was removed from a car with id:" + carId);
+       MY_LOGGER.info("Model with id:" + colorId + "was removed from a car with id:" + carId);
    }
 }

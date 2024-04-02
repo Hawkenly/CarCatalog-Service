@@ -17,21 +17,21 @@ import java.util.List;
 public class CarColorService {
 
     private final CarColorRepository carColorRepository;
-    private static final Logger LOGGER = LogManager.getLogger(CarModelService.class);
+    private static final Logger MY_LOGGER = LogManager.getLogger(CarModelService.class);
     public List<CarColor> getAllColors() {
-        LOGGER.info("All car colors were received from a DB.");
+        MY_LOGGER.info("All car colors were received from a DB.");
         return carColorRepository.findAll();
     }
 
     public CarColor getColor(Long id) {
         CarColor color = carColorRepository.findById(id).orElseThrow(() -> new ColorNotFoundException(id));
-        LOGGER.info("Car color with id:" + id + "was received from a DB.");
+        MY_LOGGER.info("Car color with id:" + id + "was received from a DB.");
         return color;
     }
 
     public CarColor saveColor(CarColor color) {
         carColorRepository.save(color);
-        LOGGER.info("Car color was saved a DB.");
+        MY_LOGGER.info("Car color was saved a DB.");
         return color;
     }
 
@@ -39,7 +39,7 @@ public class CarColorService {
     public CarColor updateColor(Long id, CarColor color) {
         CarColor colorToUpdate = getColor(id);
         colorToUpdate.setColor(color.getColor());
-        LOGGER.info("Color with id:" + id + "was updated in a DB.");
+        MY_LOGGER.info("Color with id:" + id + "was updated in a DB.");
         return colorToUpdate;
     }
 
@@ -50,6 +50,6 @@ public class CarColorService {
             car.getColors().remove(color);
         }
         carColorRepository.delete(color);
-        LOGGER.info("Color with id:" + id + "was removed from a DB.");
+        MY_LOGGER.info("Color with id:" + id + "was removed from a DB.");
     }
 }

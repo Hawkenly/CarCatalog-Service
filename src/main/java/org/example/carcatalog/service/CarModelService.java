@@ -20,10 +20,10 @@ public class CarModelService {
 
     private final CarModelRepository carModelRepository;
     private final SimpleCache<String, Object> modelSimpleCache;
-    private static final Logger LOGGER = LogManager.getLogger(CarModelService.class);
+    private static final Logger MY_LOGGER = LogManager.getLogger(CarModelService.class);
 
     public List<CarModel> getAllModels() {
-        LOGGER.info("All car models were received from a DB.");
+        MY_LOGGER.info("All car models were received from a DB.");
         return carModelRepository.findAll();
     }
 
@@ -35,17 +35,17 @@ public class CarModelService {
             carModel = carModelRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
             modelSimpleCache.put(id.toString(), carModel);
         }
-        LOGGER.info("Car model with id:" + id + "was received from a DB.");
+        MY_LOGGER.info("Car model with id:" + id + "was received from a DB.");
         return carModel;
     }
 
     public List<CarModel> getCarModelsByCar(Long id) {
-        LOGGER.info("All models from car with id:" + id + "were received from a DB.");
+        MY_LOGGER.info("All models from car with id:" + id + "were received from a DB.");
         return carModelRepository.getCarModelsByCar(id);
     }
 
     public List<CarModel> getCarModelsByCarNative(Long id) {
-        LOGGER.info("All models from car with id:" + id + "were received from a DB.");
+        MY_LOGGER.info("All models from car with id:" + id + "were received from a DB.");
         return carModelRepository.getCarModelsByCarNative(id);
     }
 
@@ -54,7 +54,7 @@ public class CarModelService {
         if (!modelSimpleCache.containsKey(model.getId().toString())) {
             modelSimpleCache.put(model.getId().toString(), model);
         }
-        LOGGER.info("Model was saved in a DB.");
+        MY_LOGGER.info("Model was saved in a DB.");
         return model;
     }
 
@@ -69,7 +69,7 @@ public class CarModelService {
         modelSimpleCache.remove(id.toString());
         modelToUpdate.setModel(model.getModel());
         modelSimpleCache.put(id.toString(), modelToUpdate);
-        LOGGER.info("Model with id:" + id + "was updated in a DB.");
+        MY_LOGGER.info("Model with id:" + id + "was updated in a DB.");
         return modelToUpdate;
     }
 
@@ -80,7 +80,7 @@ public class CarModelService {
             car.removeModel(model);
         }
         carModelRepository.delete(model);
-        LOGGER.info("Model with id:" + id + "was removed from a DB.");
+        MY_LOGGER.info("Model with id:" + id + "was removed from a DB.");
         modelSimpleCache.remove(id.toString());
     }
 }
