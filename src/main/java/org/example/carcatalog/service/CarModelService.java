@@ -36,17 +36,23 @@ public class CarModelService {
             carModel = carModelRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
             modelSimpleCache.put(id.toString(), carModel);
         }
-        MY_LOGGER.info(MessageFormat.format("Car model with id: {0} was received from a DB.", id));
+        if (MY_LOGGER.isInfoEnabled()) {
+            MY_LOGGER.info(MessageFormat.format("Car model with id: {0} was received from a DB.", id));
+        }
         return carModel;
     }
 
     public List<CarModel> getCarModelsByCar(Long id) {
-        MY_LOGGER.info(MessageFormat.format("All models from car with id: {0} were received from a DB.", id));
+        if (MY_LOGGER.isInfoEnabled()) {
+            MY_LOGGER.info(MessageFormat.format("All models from car with id: {0} were received from a DB.", id));
+        }
         return carModelRepository.getCarModelsByCar(id);
     }
 
     public List<CarModel> getCarModelsByCarNative(Long id) {
+        if (MY_LOGGER.isInfoEnabled()) {
         MY_LOGGER.info(MessageFormat.format("All models from car with id: {0} were received from a DB.", id));
+        }
         return carModelRepository.getCarModelsByCarNative(id);
     }
 
@@ -70,7 +76,9 @@ public class CarModelService {
         modelSimpleCache.remove(id.toString());
         modelToUpdate.setModel(model.getModel());
         modelSimpleCache.put(id.toString(), modelToUpdate);
-        MY_LOGGER.info(MessageFormat.format("Model with id: {0} was updated in a DB.", id));
+        if (MY_LOGGER.isInfoEnabled()) {
+            MY_LOGGER.info(MessageFormat.format("Model with id: {0} was updated in a DB.", id));
+        }
         return modelToUpdate;
     }
 
@@ -81,7 +89,9 @@ public class CarModelService {
             car.removeModel(model);
         }
         carModelRepository.delete(model);
-        MY_LOGGER.info(MessageFormat.format("Model with id: {0} was removed from a DB.", id));
+        if (MY_LOGGER.isInfoEnabled()) {
+            MY_LOGGER.info(MessageFormat.format("Model with id: {0} was removed from a DB.", id));
+        }
         modelSimpleCache.remove(id.toString());
     }
 }
