@@ -40,7 +40,9 @@ public class CarService {
            car = carRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
            carSimpleCache.put(id.toString(), car);
        }
-       MY_LOGGER.info(MessageFormat.format("Car with id: {0} was received from a DB.", id));
+       if (MY_LOGGER.isInfoEnabled()) {
+           MY_LOGGER.info(MessageFormat.format("Car with id: {0} was received from a DB.", id));
+       }
        return car;
    }
    public Car saveCar(Car car) {
@@ -58,7 +60,9 @@ public class CarService {
        carToUpdate.setPopular(car.getPopular());
        carToUpdate.setCountry(car.getCountry());
        carSimpleCache.put(id.toString(), car);
-       MY_LOGGER.info(MessageFormat.format("Car with id: {0} was updated in a DB.", id));
+       if (MY_LOGGER.isInfoEnabled()) {
+           MY_LOGGER.info(MessageFormat.format("Car with id: {0} was updated in a DB.", id));
+       }
        return carToUpdate;
    }
 
@@ -66,7 +70,9 @@ public class CarService {
        Car car = getCar(id);
        carRepository.delete(car);
        carSimpleCache.remove(id.toString());
-       MY_LOGGER.info(MessageFormat.format("Car with id: {0} was removed from a DB.", id));
+       if (MY_LOGGER.isInfoEnabled()) {
+           MY_LOGGER.info(MessageFormat.format("Car with id: {0} was removed from a DB.", id));
+       }
    }
 
    @Transactional
@@ -81,7 +87,9 @@ public class CarService {
        carModel.setCar(car);
        carSimpleCache.remove(carId.toString());
        carSimpleCache.put(carId.toString(), car);
-       MY_LOGGER.info(MessageFormat.format("Model with id: {0} was added to a car with id: {1}", modelId, carId));
+       if (MY_LOGGER.isInfoEnabled()) {
+           MY_LOGGER.info(MessageFormat.format("Model with id: {0} was added to a car with id: {1}", modelId, carId));
+       }
        return car;
    }
    @Transactional
@@ -95,7 +103,9 @@ public class CarService {
        carModel.setCar(null);
        carSimpleCache.clear();
        carRepository.save(car);
-       MY_LOGGER.info(MessageFormat.format("Model with id: {0} was removed from a car with id: {1}", modelId, carId));
+       if (MY_LOGGER.isInfoEnabled()) {
+           MY_LOGGER.info(MessageFormat.format("Model with id: {0} was removed from a car with id: {1}", modelId, carId));
+       }
    }
    @Transactional
    public Car addColorToCar(Long carId, Long colorId) {
@@ -109,7 +119,9 @@ public class CarService {
        }
        car.addColor(carColor);
        carColor.addCar(car);
-       MY_LOGGER.info(MessageFormat.format("Color with id: {0} was added to a car with id: {1}", colorId, carId));
+       if (MY_LOGGER.isInfoEnabled()) {
+           MY_LOGGER.info(MessageFormat.format("Color with id: {0} was added to a car with id: {1}", colorId, carId));
+       }
        return car;
    }
 
@@ -119,6 +131,8 @@ public class CarService {
        CarColor carColor = carColorService.getColor(colorId);
        car.removeColor(carColor);
        carColor.removeCar(car);
-       MY_LOGGER.info(MessageFormat.format("Color with id: {0} was removed from a car with id: {1}", colorId, carId));
+       if (MY_LOGGER.isInfoEnabled()) {
+           MY_LOGGER.info(MessageFormat.format("Color with id: {0} was removed from a car with id: {1}", colorId, carId));
+       }
    }
 }
