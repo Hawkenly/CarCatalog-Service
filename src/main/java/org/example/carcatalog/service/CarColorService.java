@@ -2,6 +2,8 @@ package org.example.carcatalog.service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.carcatalog.model.Car;
 import org.example.carcatalog.model.CarColor;
 import org.example.carcatalog.model.exception.ColorNotFoundException;
@@ -15,31 +17,39 @@ import java.util.List;
 public class CarColorService {
 
     private final CarColorRepository carColorRepository;
-    public List<CarColor> getAllColors(){
+    private static final Logger LOGGER = LogManager.getLogger(CarModelService.class);
+    public List<CarColor> getAllColors() {
+        LOGGER.info("All car colors were received from a DB.");
         return carColorRepository.findAll();
     }
 
     public CarColor getColor(Long id) {
-        return carColorRepository.findById(id).orElseThrow(() -> new ColorNotFoundException(id));
+        CarColor color = carColorRepository.findById(id).orElseThrow(() -> new ColorNotFoundException(id));
+        LOGGER.info("Car color with id:" + id + "was received from a DB.");
+        return color;
     }
 
-    public CarColor saveColor(CarColor color){
-        return carColorRepository.save(color);
+    public CarColor saveColor(CarColor color) {
+        carColorRepository.save(color);
+        LOGGER.info("Car color was saved a DB.");
+        return color;
     }
 
     @Transactional
-    public CarColor updateColor(Long id, CarColor color){
+    public CarColor updateColor(Long id, CarColor color) {
         CarColor colorToUpdate = getColor(id);
         colorToUpdate.setColor(color.getColor());
+        LOGGER.info("Color with id:" + id + "was updated in a DB.");
         return colorToUpdate;
     }
 
-    public void removeColor(Long id){
+    public void removeColor(Long id) {
         CarColor color = getColor(id);
-        List<Car> cars= color.getCars();
-        for(Car car: cars){
+        List<Car> cars = color.getCars();
+        for (Car car: cars) {
             car.getColors().remove(color);
         }
         carColorRepository.delete(color);
+        LOGGER.info("Color with id:" + id + "was removed from a DB.");
     }
 }

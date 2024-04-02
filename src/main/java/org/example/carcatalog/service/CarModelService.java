@@ -2,6 +2,8 @@ package org.example.carcatalog.service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.carcatalog.cache.SimpleCache;
 import org.example.carcatalog.model.Car;
 import org.example.carcatalog.model.CarModel;
@@ -17,61 +19,68 @@ import java.util.Objects;
 public class CarModelService {
 
     private final CarModelRepository carModelRepository;
-    private final SimpleCache<String,Object> modelSimpleCache;
+    private final SimpleCache<String, Object> modelSimpleCache;
+    private static final Logger LOGGER = LogManager.getLogger(CarModelService.class);
 
-    public List<CarModel> getAllModels(){
+    public List<CarModel> getAllModels() {
+        LOGGER.info("All car models were received from a DB.");
         return carModelRepository.findAll();
     }
 
-    public CarModel getModel(Long id){
+    public CarModel getModel(Long id) {
         CarModel carModel;
-        if(modelSimpleCache.containsKey(id.toString())) {
+        if (modelSimpleCache.containsKey(id.toString())) {
             carModel = (CarModel) modelSimpleCache.get(id.toString());
-        }
-        else {
+        } else {
             carModel = carModelRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
-            modelSimpleCache.put(id.toString(),carModel);
+            modelSimpleCache.put(id.toString(), carModel);
         }
+        LOGGER.info("Car model with id:" + id + "was received from a DB.");
         return carModel;
     }
 
-    public List<CarModel> getCarModelsByCar(Long id){
+    public List<CarModel> getCarModelsByCar(Long id) {
+        LOGGER.info("All models from car with id:" + id + "were received from a DB.");
         return carModelRepository.getCarModelsByCar(id);
     }
 
-    public List<CarModel> getCarModelsByCarNative(Long id){
+    public List<CarModel> getCarModelsByCarNative(Long id) {
+        LOGGER.info("All models from car with id:" + id + "were received from a DB.");
         return carModelRepository.getCarModelsByCarNative(id);
     }
 
-    public CarModel saveModel(CarModel model){
+    public CarModel saveModel(CarModel model) {
         carModelRepository.save(model);
-        if(!modelSimpleCache.containsKey(model.getId().toString())) {
+        if (!modelSimpleCache.containsKey(model.getId().toString())) {
             modelSimpleCache.put(model.getId().toString(), model);
         }
+        LOGGER.info("Model was saved in a DB.");
         return model;
     }
+
     @Transactional
-    public CarModel updateModel(Long id, CarModel model){
+    public CarModel updateModel(Long id, CarModel model) {
         CarModel modelToUpdate = getModel(id);
         Car car = modelToUpdate.getCar();
-        if(Objects.nonNull(car)){
+        if (Objects.nonNull(car)) {
             car.removeModel(modelToUpdate);
             car.addModel(model);
         }
         modelSimpleCache.remove(id.toString());
         modelToUpdate.setModel(model.getModel());
-        modelSimpleCache.put(id.toString(),modelToUpdate);
-
+        modelSimpleCache.put(id.toString(), modelToUpdate);
+        LOGGER.info("Model with id:" + id + "was updated in a DB.");
         return modelToUpdate;
     }
 
-    public void removeModel(Long id){
+    public void removeModel(Long id) {
         CarModel model = getModel(id);
         Car car = model.getCar();
-        if(Objects.nonNull(car)) {
+        if (Objects.nonNull(car)) {
             car.removeModel(model);
         }
         carModelRepository.delete(model);
+        LOGGER.info("Model with id:" + id + "was removed from a DB.");
         modelSimpleCache.remove(id.toString());
     }
 }
