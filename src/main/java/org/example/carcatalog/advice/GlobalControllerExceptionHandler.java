@@ -1,4 +1,4 @@
-package org.example.carcatalog.Advice;
+package org.example.carcatalog.advice;
 
 import lombok.NonNull;
 import org.apache.logging.log4j.LogManager;
