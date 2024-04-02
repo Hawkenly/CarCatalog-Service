@@ -25,7 +25,7 @@ public class CarService {
     private final CarModelService carModelService;
     private final CarColorService carColorService;
     private final SimpleCache<String, Object> carSimpleCache;
-    private static final Logger MY_LOGGER = LogManager.getLogger(CarModelService.class);
+    private static final Logger MY_LOGGER = LogManager.getLogger(CarService.class);
 
    public List<Car> getAllCars() {
        MY_LOGGER.info("All cars were received from a DB.");

@@ -17,7 +17,7 @@ import java.util.List;
 public class CarColorService {
 
     private final CarColorRepository carColorRepository;
-    private static final Logger MY_LOGGER = LogManager.getLogger(CarModelService.class);
+    private static final Logger MY_LOGGER = LogManager.getLogger(CarColorService.class);
     public List<CarColor> getAllColors() {
         MY_LOGGER.info("All car colors were received from a DB.");
         return carColorRepository.findAll();
