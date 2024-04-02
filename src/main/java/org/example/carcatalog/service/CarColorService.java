@@ -10,6 +10,7 @@ import org.example.carcatalog.model.exception.ColorNotFoundException;
 import org.example.carcatalog.repository.CarColorRepository;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 @Service
@@ -25,7 +26,7 @@ public class CarColorService {
 
     public CarColor getColor(Long id) {
         CarColor color = carColorRepository.findById(id).orElseThrow(() -> new ColorNotFoundException(id));
-        MY_LOGGER.info("Car color with id:" + id + "was received from a DB.");
+        MY_LOGGER.info(MessageFormat.format("Car color with id: {0} was received from a DB.", id));
         return color;
     }
 
@@ -39,7 +40,7 @@ public class CarColorService {
     public CarColor updateColor(Long id, CarColor color) {
         CarColor colorToUpdate = getColor(id);
         colorToUpdate.setColor(color.getColor());
-        MY_LOGGER.info("Color with id:" + id + "was updated in a DB.");
+        MY_LOGGER.info(MessageFormat.format("Color with id: {0} was updated in a DB.", id));
         return colorToUpdate;
     }
 
@@ -50,6 +51,6 @@ public class CarColorService {
             car.getColors().remove(color);
         }
         carColorRepository.delete(color);
-        MY_LOGGER.info("Color with id:" + id + "was removed from a DB.");
+        MY_LOGGER.info(MessageFormat.format("Color with id: {0} was removed from a DB.", id));
     }
 }
