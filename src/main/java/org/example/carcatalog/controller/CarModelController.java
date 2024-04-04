@@ -2,6 +2,7 @@ package org.example.carcatalog.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.example.carcatalog.aspect.AspectAnnotation;
 import org.example.carcatalog.model.CarModel;
 import org.example.carcatalog.service.CarModelService;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public  class CarModelController {
      * Метод обработки запроса на получения всех моделей.
      * @return возвращает список всех моделей
      */
+    @AspectAnnotation
     @GetMapping("/")
     public List<CarModel> getAllModels() {
         return carModelService.getAllModels();
@@ -29,6 +31,7 @@ public  class CarModelController {
      * @param id - id модели
      * @return возвращает модель
      */
+    @AspectAnnotation
     @GetMapping
     public CarModel getModel(@RequestParam final Long id) {
         return carModelService.getModel(id);
@@ -38,6 +41,7 @@ public  class CarModelController {
      * @param id - id автомобиля
      * @return возвращает список моделей автомобиля
      */
+    @AspectAnnotation
     @GetMapping("fromCar")
     public List<CarModel> getModelsByCar(@RequestParam final Long id) {
         return carModelService.getCarModelsByCar(id);
@@ -47,6 +51,7 @@ public  class CarModelController {
      * @param id - id автомобиля
      * @return возвращает список моделей автомобиля
      */
+    @AspectAnnotation
     @GetMapping("fromCarNative")
     public List<CarModel> getModelsByCarNative(@RequestParam final Long id) {
         return carModelService.getCarModelsByCarNative(id);
@@ -56,6 +61,7 @@ public  class CarModelController {
      * @param model - модель
      * @return возвращает добавленную модель
      */
+    @AspectAnnotation
     @PostMapping("add")
     public CarModel saveCar(@Valid @RequestBody final CarModel model) {
         return carModelService.saveModel(model);
@@ -66,6 +72,7 @@ public  class CarModelController {
      * @param model - новая модель
      * @return возвращает изменённую модель
      */
+    @AspectAnnotation
     @PutMapping("update")
     public CarModel updateCar(@RequestParam final Long id,
                               @Valid @RequestBody final CarModel model) {
@@ -75,6 +82,7 @@ public  class CarModelController {
      * Метод обработки запроса на удаление модели.
      * @param id - id модели
      */
+    @AspectAnnotation
     @DeleteMapping("delete")
     public void removeCar(@RequestParam final Long id) {
         carModelService.removeModel(id);

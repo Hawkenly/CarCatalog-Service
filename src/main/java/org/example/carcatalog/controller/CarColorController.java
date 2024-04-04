@@ -2,6 +2,7 @@ package org.example.carcatalog.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.example.carcatalog.aspect.AspectAnnotation;
 import org.example.carcatalog.model.CarColor;
 import org.example.carcatalog.service.CarColorService;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +28,7 @@ public class CarColorController {
      * Метод обработки запроса на получения всех цветов.
      * @return возвращает список всех цветов
      */
+    @AspectAnnotation
     @GetMapping("/")
     public List<CarColor> getAllCars() {
         return carColorService.getAllColors();
@@ -36,6 +38,7 @@ public class CarColorController {
      * @param id - id модели
      * @return возвращает цвет
      */
+    @AspectAnnotation
     @GetMapping
     public CarColor getColor(@RequestParam final Long id) {
         return carColorService.getColor(id);
@@ -45,6 +48,7 @@ public class CarColorController {
      * @param color - цвет
      * @return возвращает добавленный цвет
      */
+    @AspectAnnotation
     @PostMapping("add")
     public CarColor saveColor(@Valid @RequestBody final CarColor color) {
         return carColorService.saveColor(color);
@@ -55,6 +59,7 @@ public class CarColorController {
      * @param color - новый цвет
      * @return возвращает изменённый цвет
      */
+    @AspectAnnotation
     @PutMapping("update")
     public CarColor updateColor(@RequestParam final Long id,
                                 @Valid @RequestBody final CarColor color) {
@@ -64,6 +69,7 @@ public class CarColorController {
      * Метод обработки запроса на удаление цвета.
      * @param id - id цвета
      */
+    @AspectAnnotation
     @DeleteMapping("delete")
     public void removeColor(@RequestParam final Long id) {
         carColorService.removeColor(id);

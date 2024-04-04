@@ -20,33 +20,26 @@ public class CarModelService {
     private final CarModelRepository carModelRepository;
     private final SimpleCache<String, Object> modelSimpleCache;
 
-    @AspectAnnotation
     public List<CarModel> getAllModels() {
         return carModelRepository.findAll();
     }
-
-    @AspectAnnotation
     public CarModel getModel(final Long id) {
         CarModel carModel;
         if (modelSimpleCache.containsKey(id.toString())) {
             carModel = (CarModel) modelSimpleCache.get(id.toString());
         } else {
-            carModel = carModelRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
+            carModel = carModelRepository.findById(id)
+                    .orElseThrow(() -> new ModelNotFoundException(id));
             modelSimpleCache.put(id.toString(), carModel);
         }
         return carModel;
     }
-
-    @AspectAnnotation
     public List<CarModel> getCarModelsByCar(final Long id) {
         return carModelRepository.getCarModelsByCar(id);
     }
-    @AspectAnnotation
     public List<CarModel> getCarModelsByCarNative(final Long id) {
         return carModelRepository.getCarModelsByCarNative(id);
     }
-
-    @AspectAnnotation
     public CarModel saveModel(final CarModel model) {
         carModelRepository.save(model);
         if (!modelSimpleCache.containsKey(model.getId().toString())) {
@@ -54,8 +47,6 @@ public class CarModelService {
         }
         return model;
     }
-
-    @AspectAnnotation
     @Transactional
     public CarModel updateModel(final Long id, final CarModel model) {
         CarModel modelToUpdate = getModel(id);
@@ -69,8 +60,6 @@ public class CarModelService {
         modelSimpleCache.put(id.toString(), modelToUpdate);
         return modelToUpdate;
     }
-
-    @AspectAnnotation
     public void removeModel(final Long id) {
         CarModel model = getModel(id);
         Car car = model.getCar();

@@ -16,32 +16,23 @@ import java.util.List;
 public class CarColorService {
 
     private final CarColorRepository carColorRepository;
-    @AspectAnnotation
     public List<CarColor> getAllColors() {
         return carColorRepository.findAll();
     }
-
-    @AspectAnnotation
     public CarColor getColor(final Long id) {
         return carColorRepository.findById(id).
                 orElseThrow(() -> new ColorNotFoundException(id));
     }
-
-    @AspectAnnotation
     public CarColor saveColor(final CarColor color) {
         carColorRepository.save(color);
         return color;
     }
-
-    @AspectAnnotation
     @Transactional
     public CarColor updateColor(final Long id, final CarColor color) {
         CarColor colorToUpdate = getColor(id);
         colorToUpdate.setColor(color.getColor());
         return colorToUpdate;
     }
-
-    @AspectAnnotation
     public void removeColor(final Long id) {
         CarColor color = getColor(id);
         List<Car> cars = color.getCars();
