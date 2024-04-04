@@ -22,7 +22,7 @@ public class GlobalControllerExceptionHandler {
     /**
      * Поле константы.
      */
-    private final String NOT_FOUND = "Resource not found: ";
+    private static final String NOT_FOUND = "Resource not found: ";
     /**
      * @param modelNotFoundException - исключение
      * @param request - веб-запрос
