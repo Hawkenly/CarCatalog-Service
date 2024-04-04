@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public final class CarColor {
     /**
      * Поле название цвета.
      */
+    @NotBlank
     private String color;
     /**
      * Поле список автомобилей.

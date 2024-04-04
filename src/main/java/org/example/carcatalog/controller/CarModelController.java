@@ -1,8 +1,10 @@
 package org.example.carcatalog.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.carcatalog.model.CarModel;
 import org.example.carcatalog.service.CarModelService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,7 +65,7 @@ public  class CarModelController {
      * @return возвращает добавленную модель
      */
     @PostMapping("add")
-    public CarModel saveCar(@RequestBody final CarModel model) {
+    public CarModel saveCar(@Valid @RequestBody final CarModel model) {
         return carModelService.saveModel(model);
     }
     /**
@@ -74,7 +76,7 @@ public  class CarModelController {
      */
     @PutMapping("update")
     public CarModel updateCar(@RequestParam final Long id,
-                              @RequestBody final CarModel model) {
+                              @Valid @RequestBody final CarModel model) {
         return carModelService.updateModel(id, model);
     }
     /**

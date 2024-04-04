@@ -16,7 +16,8 @@ public class LogAspect {
     }
 
     @Pointcut("execution(* org.example.carcatalog.service.*.*(..))"
-            /*+ "|| execution(* org.example.carcatalog.controller.*.*(..))"*/)
+            + "|| execution(* org.example.carcatalog.advice.*.*(..))"
+            + "|| execution(* org.example.carcatalog.controller.*.*(..))")
     public void callAllMethods() {
     }
 

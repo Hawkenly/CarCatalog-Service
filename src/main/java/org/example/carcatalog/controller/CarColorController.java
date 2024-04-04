@@ -1,5 +1,6 @@
 package org.example.carcatalog.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.carcatalog.model.CarColor;
 import org.example.carcatalog.service.CarColorService;
@@ -45,7 +46,7 @@ public class CarColorController {
      * @return возвращает добавленный цвет
      */
     @PostMapping("add")
-    public CarColor saveColor(@RequestBody final CarColor color) {
+    public CarColor saveColor(@Valid @RequestBody final CarColor color) {
         return carColorService.saveColor(color);
     }
     /**
@@ -56,7 +57,7 @@ public class CarColorController {
      */
     @PutMapping("update")
     public CarColor updateColor(@RequestParam final Long id,
-                                @RequestBody final CarColor color) {
+                                @Valid @RequestBody final CarColor color) {
         return carColorService.updateColor(id, color);
     }
     /**

@@ -2,6 +2,7 @@ package org.example.carcatalog.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -12,6 +13,7 @@ public class CarModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
     private String model;
 
     @JsonIgnore
@@ -19,7 +21,7 @@ public class CarModel {
     private Car car;
 
     @Override
-    public String toString(){
+    public String toString() {
         return id.toString();
     }
 }

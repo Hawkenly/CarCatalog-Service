@@ -1,6 +1,7 @@
 
 package org.example.carcatalog.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.carcatalog.model.Car;
 import org.example.carcatalog.service.CarService;
@@ -47,7 +48,7 @@ public  class CarController {
      * @return возвращает добавленный автомобиль
      */
     @PostMapping("add")
-    public Car saveCar(@RequestBody final Car car) {
+    public Car saveCar(@Valid @RequestBody final Car car) {
         return carService.saveCar(car);
     }
     /**
@@ -58,7 +59,7 @@ public  class CarController {
      */
     @PutMapping("update")
     public Car updateCar(@RequestParam final Long id,
-                         @RequestBody final Car car) {
+                         @Valid @RequestBody final Car car) {
         return carService.updateCar(id, car);
     }
     /**

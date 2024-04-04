@@ -9,6 +9,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -27,14 +28,17 @@ public final class Car {
     /**
      * Поле название марки.
      */
+    @NotBlank
     private String name;
     /**
      * Поле популярность.
      */
+    @NotBlank
     private String popular;
     /**
      * Поле страна.
      */
+    @NotBlank
     private String country;
     /**
      * Поле список моделей.
