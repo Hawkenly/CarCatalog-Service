@@ -6,10 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CarCatalog {
     /**
-     * To hide utility class constructor.
-     */
-   // private final CarCatalog carConstruct = new CarCatalog();
-    /**
      * Точка входа в программу.
      * @param args - агрументы командной строки
      */
