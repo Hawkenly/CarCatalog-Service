@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 @Aspect
 @Component
 public class LogAspect {
-    private final Logger MY_LOGGER = LogManager.getLogger(this.getClass());
+    private final Logger log = LogManager.getLogger(this.getClass());
 
     @Pointcut("@annotation(AspectAnnotation)")
     public void methodsWithAspectAnnotation() {
@@ -24,7 +24,7 @@ public class LogAspect {
 
     @Before("callAllMethods()")
     public void logBeforeMethod(final JoinPoint jp) {
-        MY_LOGGER.info(MessageFormat.format("Method {0}.{1}() was called",
+        log.info(MessageFormat.format("Method {0}.{1}() was called",
                 jp.getSignature().getDeclaringTypeName(),
                 jp.getSignature().getName()));
     }
@@ -33,7 +33,7 @@ public class LogAspect {
             returning = "result")
     public void logMethodReturn(final JoinPoint joinPoint,
                                 final Object result) {
-        MY_LOGGER.info(MessageFormat.format(
+        log.info(MessageFormat.format(
                 "Method is returned: {0}.{1}() , returned value: {2} ",
                 joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(), result.toString()));
@@ -41,7 +41,7 @@ public class LogAspect {
 
     @AfterThrowing(pointcut = "callAllMethods()", throwing = "exception")
     public void logException(final JoinPoint jp, final Throwable exception) {
-        MY_LOGGER.info(MessageFormat.format("Exception in {0}.{1}(),cause: {2}",
+        log.info(MessageFormat.format("Exception in {0}.{1}(),cause: {2}",
                 jp.getSignature().getDeclaringTypeName(),
                 jp.getSignature().getName(), exception.getMessage()));
     }
