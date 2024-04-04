@@ -1,6 +1,5 @@
 package org.example.carcatalog.advice;
 
-import org.example.carcatalog.aspect.AspectAnnotation;
 import org.example.carcatalog.model.exception.CarNotFoundException;
 import org.example.carcatalog.model.exception.ColorNotFoundException;
 import org.example.carcatalog.model.exception.ModelIsAlreadyAssignedException;
