@@ -1,16 +1,14 @@
 package org.example.carcatalog.advice;
 
-import org.example.carcatalog.model.exception.CarNotFoundException;
-import org.example.carcatalog.model.exception.ColorNotFoundException;
-import org.example.carcatalog.model.exception.ModelIsAlreadyAssignedException;
-import org.example.carcatalog.model.exception.ModelIsNotAssignedException;
-import org.example.carcatalog.model.exception.ModelNotFoundException;
+import org.example.carcatalog.model.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +19,14 @@ public class GlobalControllerExceptionHandler {
      * @return возвращает информацию об исключении
      */
     @ExceptionHandler(ModelNotFoundException.class)
-    public ResponseEntity<String> handleModelNotFound(
-            final ModelNotFoundException modelNotFoundException) {
-        return new ResponseEntity<>(modelNotFoundException.getMessage(),
+    public ResponseEntity<ErrorDetails> handleModelNotFound(
+            final ModelNotFoundException modelNotFoundException,
+            final WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Resource not found: " + modelNotFoundException.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorDetails,
                 HttpStatus.NOT_FOUND);
     }
     /**
@@ -31,9 +34,14 @@ public class GlobalControllerExceptionHandler {
      * @return возвращает информацию об исключении
      */
     @ExceptionHandler(CarNotFoundException.class)
-    public ResponseEntity<String> handleCarNotFound(
-            final CarNotFoundException carNotFoundException) {
-        return new ResponseEntity<>(carNotFoundException.getMessage(),
+    public ResponseEntity<ErrorDetails> handleCarNotFound(
+            final CarNotFoundException carNotFoundException,
+            final  WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Resource not found: " + carNotFoundException.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorDetails,
                 HttpStatus.NOT_FOUND);
     }
     /**
@@ -41,9 +49,14 @@ public class GlobalControllerExceptionHandler {
      * @return возвращает информацию об исключении
      */
     @ExceptionHandler(ColorNotFoundException.class)
-    public ResponseEntity<String> handleColorNotFound(
-            final ColorNotFoundException colorNotFoundException) {
-        return new ResponseEntity<>(colorNotFoundException.getMessage(),
+    public ResponseEntity<ErrorDetails> handleColorNotFound(
+            final ColorNotFoundException colorNotFoundException,
+            final WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Resource not found: " + colorNotFoundException.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorDetails,
                 HttpStatus.NOT_FOUND);
     }
     /**
@@ -51,39 +64,57 @@ public class GlobalControllerExceptionHandler {
      * @return возвращает информацию об исключении
      */
     @ExceptionHandler(ModelIsAlreadyAssignedException.class)
-    public ResponseEntity<String> handleModelIsAlreadyAssigned(
+    public ResponseEntity<ErrorDetails> handleModelIsAlreadyAssigned(
             final ModelIsAlreadyAssignedException
-                    modelIsAlreadyAssignedException) {
-        return new ResponseEntity<>(
+                    modelIsAlreadyAssignedException, final WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 modelIsAlreadyAssignedException.getMessage(),
-                HttpStatus.NOT_FOUND);
+                request.getDescription(false));
+        return new ResponseEntity<>(errorDetails,
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
     /**
      * @param modelIsNotAssignedException - исключение
      * @return возвращает информацию об исключении
      */
     @ExceptionHandler(ModelIsNotAssignedException.class)
-    public ResponseEntity<String> handleModelIsNotAssigned(
-            final ModelIsNotAssignedException modelIsNotAssignedException) {
-        return new ResponseEntity<>(modelIsNotAssignedException.getMessage(),
-                HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorDetails> handleModelIsNotAssigned(
+            final ModelIsNotAssignedException modelIsNotAssignedException,
+            final WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                modelIsNotAssignedException.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorDetails,
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<String> handleMethodArgumentNotValidException(
-            final MethodArgumentNotValidException exception) {
+    public ResponseEntity<ErrorDetails> handleMethodArgumentNotValidException(
+            final MethodArgumentNotValidException exception,
+            final WebRequest request) {
         List<String> errors = new ArrayList<>();
         exception.getBindingResult().getFieldErrors().forEach(fieldError -> {
             String errorMessage = String.format("%s - %s",
                     fieldError.getField(), fieldError.getDefaultMessage());
             errors.add(errorMessage);
         });
-        String errorMessage = String.join(", ", errors);
-        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        String errorMessage = String.join(",", errors);
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Resource not found: " + errorMessage,
+                request.getDescription(false));
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGlobalException(
-            final Exception exception) {
-        return new ResponseEntity<>(exception.getMessage(),
+    public ResponseEntity<ErrorDetails> handleGlobalException(
+            final Exception exception, final WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Resource not found: " + exception.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorDetails,
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
