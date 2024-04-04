@@ -23,9 +23,8 @@ public class CarColorService {
 
     @AspectAnnotation
     public CarColor getColor(final Long id) {
-        CarColor color = carColorRepository.findById(id).
+        return carColorRepository.findById(id).
                 orElseThrow(() -> new ColorNotFoundException(id));
-        return color;
     }
 
     @AspectAnnotation

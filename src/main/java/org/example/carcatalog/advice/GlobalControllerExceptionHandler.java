@@ -1,8 +1,6 @@
 package org.example.carcatalog.advice;
 
 import lombok.NonNull;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.carcatalog.model.exception.CarNotFoundException;
 import org.example.carcatalog.model.exception.ColorNotFoundException;
 import org.example.carcatalog.model.exception.ModelIsAlreadyAssignedException;

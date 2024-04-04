@@ -23,7 +23,7 @@ public class LogAspect {
     }
 
     @Before("callAllMethods()")
-    public void logAfterReturning(final JoinPoint jp) {
+    public void logBeforeMethod(final JoinPoint jp) {
         MY_LOGGER.info(MessageFormat.format("Method {0}.{1}() was called",
                 jp.getSignature().getDeclaringTypeName(),
                 jp.getSignature().getName()));
