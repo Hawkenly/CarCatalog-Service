@@ -25,27 +25,25 @@ public class LogAspect {
 
     @Before("callAllMethods()")
     public void logBeforeMethod(final JoinPoint jp) {
-        logger.log(Level.INFO, MessageFormat.format("Method {0}.{1}() was called",
+        logger.info("Method {}.{}() was called",
                 jp.getSignature().getDeclaringTypeName(),
-                jp.getSignature().getName()));
+                jp.getSignature().getName());
     }
 
     @AfterReturning(pointcut = "methodsWithAspectAnnotation()",
             returning = "result")
     public void logMethodReturn(final JoinPoint jp,
                                 final Object result) {
-        logger.log(Level.INFO, MessageFormat.format(
-                "Method is returned: {0}.{1}() , returned value: {2} ",
+        logger.info("Method is returned: {}.{}(), returned value: {} ",
                 jp.getSignature().getDeclaringTypeName(),
-                jp.getSignature().getName(), result.toString()));
+                jp.getSignature().getName(), result);
     }
 
     @AfterThrowing(pointcut = "callAllMethods()", throwing = "exception")
     public void logException(final JoinPoint jp, final Throwable exception) {
-        logger.log(Level.INFO, MessageFormat.format(
-                "Exception in {0}.{1}(),cause: {2}",
+        logger.info("Exception in {}.{}(),cause: {}",
                 jp.getSignature().getDeclaringTypeName(),
-                jp.getSignature().getName(), exception.getMessage()));
+                jp.getSignature().getName(), exception.getMessage());
     }
 }
 
