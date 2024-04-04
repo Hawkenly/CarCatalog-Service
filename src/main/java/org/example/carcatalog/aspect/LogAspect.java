@@ -1,13 +1,10 @@
 package org.example.carcatalog.aspect;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
-
-import java.text.MessageFormat;
 
 @Aspect
 @Component
@@ -41,7 +38,7 @@ public class LogAspect {
 
     @AfterThrowing(pointcut = "callAllMethods()", throwing = "exception")
     public void logException(final JoinPoint jp, final Throwable exception) {
-        logger.info("Exception in {}.{}(),cause: {}",
+        logger.info("Exception in {}.{}(), cause: {}",
                 jp.getSignature().getDeclaringTypeName(),
                 jp.getSignature().getName(), exception.getMessage());
     }
