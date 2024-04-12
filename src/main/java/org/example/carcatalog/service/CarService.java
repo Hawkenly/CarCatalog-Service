@@ -118,4 +118,10 @@ public class CarService {
        car.removeColor(carColor);
        carColor.removeCar(car);
    }
+
+   @AspectAnnotation
+    public List<Car> bulkSave(final List<Car> cars) {
+       carRepository.saveAll(cars);
+       return cars;
+   }
 }

@@ -112,4 +112,10 @@ public  class CarController {
                                    @PathVariable final Long colorId) {
         carService.removeColorFromCar(carId, colorId);
     }
+
+    @PostMapping("bulk")
+    public List<Car> bulkSave(@RequestBody final List<Car> cars) {
+        carService.bulkSave(cars);
+        return cars;
+    }
 }

@@ -2,7 +2,6 @@ package org.example.carcatalog.service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.example.carcatalog.aspect.AspectAnnotation;
 import org.example.carcatalog.model.Car;
 import org.example.carcatalog.model.CarColor;
 import org.example.carcatalog.model.exception.ColorNotFoundException;
