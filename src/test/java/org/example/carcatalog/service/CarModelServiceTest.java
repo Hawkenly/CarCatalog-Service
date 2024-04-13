@@ -35,7 +35,7 @@ public class CarModelServiceTest {
 
     private CarModel carModel;
 
-    private final Long modelId = 1L;
+    private final Long modelId =33L;
 
     private final Long carId = 52L;
 
@@ -43,7 +43,9 @@ public class CarModelServiceTest {
 
     @BeforeEach
     void setUp(){
-        carModel = modelList.get(0);
+        carModel = new CarModel();
+        carModel.setId(modelId);
+        carModel.setModel("testModel");
 
         Car car = new Car();
         car.setId(carId);
@@ -51,8 +53,8 @@ public class CarModelServiceTest {
         car.setPopular("testPopular");
         car.setCountry("testCountry");
 
-        car.setModels(modelList);
-        carModel.setCar(car);
+        car.addModel(modelList.get(0));
+        modelList.get(0).setCar(car);
 
         modelSimpleCache.put(modelId.toString(), carModel);
     }
@@ -130,6 +132,13 @@ public class CarModelServiceTest {
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModel));
         carModelService.removeModel(modelId);
         Mockito.verify(carModelRepository, Mockito.times(1)).delete(carModel);
+    }
+
+    @Test
+    public void testRemoveModelWithCar(){
+        Mockito.when(carModelRepository.findById(modelList.get(0).getId())).thenReturn(Optional.of(modelList.get(0)));
+        carModelService.removeModel(modelList.get(0).getId());
+        Mockito.verify(carModelRepository, Mockito.times(1)).delete(modelList.get(0));
     }
 
     @Test
