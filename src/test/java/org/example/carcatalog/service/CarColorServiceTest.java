@@ -27,93 +27,86 @@ public class CarColorServiceTest {
     @InjectMocks
     private CarColorService carColorService;
 
-    private static List<CarColor> list;
+    private static List<CarColor> colorList;
 
     private CarColor carColor;
 
-    private final Long carColorId = 52L;
+    private final Long colorId = 52L;
 
     private static final int NUM_OF_REPEATS = 5;
 
     @BeforeEach
     void setUp() {
         carColor = new CarColor();
-        carColor.setId(carColorId);
+        carColor.setId(colorId);
         carColor.setColor("black...");
     }
 
     @BeforeAll
     static void setUpList(){
-        list = new ArrayList<>();
+        colorList = new ArrayList<>();
         for(int i = 0; i < NUM_OF_REPEATS; i++) {
             CarColor carColor = new CarColor();
             carColor.setId((long) i);
             carColor.setColor("black" + i);
-            list.add(carColor);
+            colorList.add(carColor);
         }
     }
 
     @Test
     public void testGetAllColors() {
-        Mockito.when(carColorRepository.findAll()).thenReturn(list);
+        Mockito.when(carColorRepository.findAll()).thenReturn(colorList);
         List<CarColor> resultList = carColorService.getAllColors();
-        assertEquals(resultList, list);
+        assertEquals(resultList, colorList);
     }
 
     @Test
-    public void testGetColorById() {
-        Mockito.when(carColorRepository.findById(carColorId)).thenReturn(Optional.of(carColor));
-
-        CarColor result = carColorService.getColor(carColorId);
-
+    public void testGetColor() {
+        Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.of(carColor));
+        CarColor result = carColorService.getColor(colorId);
         assertNotNull(result);
         assertEquals(result,carColor);
     }
 
     @Test
-    public void testGetColorByIdException() {
-        Mockito.when(carColorRepository.findById(carColorId)).thenReturn(Optional.empty());
-
-        assertThrows(ColorNotFoundException.class, () -> carColorService.getColor(carColorId));
+    public void testGetColorException() {
+        Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.empty());
+        assertThrows(ColorNotFoundException.class, () -> carColorService.getColor(colorId));
     }
 
     @Test
     public void testSaveColor(){
-
         Mockito.when(carColorRepository.save(carColor)).thenReturn(carColor);
         CarColor result = carColorService.saveColor(carColor);
-
         assertNotNull(result);
         assertEquals(result,carColor);
-
         Mockito.verify(carColorRepository, Mockito.times(1)).save(carColor);
 
     }
 
     @Test
     public void testUpdateColor(){
-
-        Mockito.when(carColorRepository.findById(carColorId)).thenReturn(Optional.of(carColor));
-        CarColor result = carColorService.updateColor(carColorId, carColor);
+        Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.of(carColor));
+        CarColor result = carColorService.updateColor(colorId, carColor);
         assertEquals(result, carColor);
     }
 
     @Test
     public void testUpdateColorException(){
-        Mockito.when(carColorRepository.findById(carColorId)).thenReturn(Optional.empty());
-        assertThrows(ColorNotFoundException.class, () -> carColorService.updateColor(carColorId, carColor));
+        Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.empty());
+        assertThrows(ColorNotFoundException.class, () -> carColorService.updateColor(colorId, carColor));
     }
 
     @Test
-    public void testDeleteColor(){
-        Mockito.when(carColorRepository.findById(carColorId)).thenReturn(Optional.of(carColor));
-        carColorService.removeColor(carColorId);
+    public void testRemoveColor(){
+        Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.of(carColor));
+        carColorService.removeColor(colorId);
         Mockito.verify(carColorRepository, Mockito.times(1)).delete(carColor);
     }
 
     @Test
-    public void testDeleteColorException(){
-       Mockito.when(carColorRepository.findById(carColorId)).thenReturn(Optional.empty());
-       assertThrows(ColorNotFoundException.class, () -> carColorService.removeColor(carColorId));
+    public void testRemoveColorException(){
+       Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.empty());
+       assertThrows(ColorNotFoundException.class, () -> carColorService.removeColor(colorId));
     }
 }
