@@ -164,8 +164,8 @@ class CarServiceTest {
     void testAddModelWithCarToCar(){
         Mockito.when(carRepository.findById(carList.get(0).getId())).thenReturn(Optional.of(carList.get(0)));
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModelWithCar));
-
-        assertThrows(ModelIsAlreadyAssignedException.class, () -> carService.addModelToCar(carList.get(0).getId(),modelId));
+        Long carId =carList.get(0).getId();
+        assertThrows(ModelIsAlreadyAssignedException.class, () -> carService.addModelToCar(carId, modelId));
     }
 
     @Test
@@ -238,6 +238,7 @@ class CarServiceTest {
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.of(carColor));
         carService.removeColorFromCar(carId, colorId);
+        Mockito.verify(carRepository, Mockito.times(1)).findById(carId);
     }
 
     @Test
