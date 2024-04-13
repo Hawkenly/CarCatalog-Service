@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CarServiceTest {
+class CarServiceTest {
 
     @Mock
     private CarRepository carRepository;
@@ -97,14 +96,14 @@ public class CarServiceTest {
     }
 
     @Test
-    public void testGetAllCars(){
+    void testGetAllCars(){
         Mockito.when(carRepository.findAll()).thenReturn(carList);
         List<Car> result = carService.getAllCars();
         assertEquals(result, carList);
     }
 
     @Test
-    public void testGetCar(){
+    void testGetCar(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Car result = carService.getCar(carId);
         assertNotNull(result);
@@ -112,13 +111,13 @@ public class CarServiceTest {
     }
 
     @Test
-    public void testGetCarException(){
+    void testGetCarException(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.empty());
         assertThrows(CarNotFoundException.class, () -> carService.getCar(carId));
     }
 
     @Test
-    public void testSaveCar(){
+    void testSaveCar(){
         Mockito.when(carRepository.save(car)).thenReturn(car);
         Car result = carService.saveCar(car);
         assertNotNull(result);
@@ -127,32 +126,33 @@ public class CarServiceTest {
     }
 
     @Test
-    public void testUpdateCar(){
+    void testUpdateCar(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Car result = carService.updateCar(carId, car);
         assertEquals(result, car);
     }
 
     @Test
-    public void testUpdateCarException(){
+    void testUpdateCarException(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.empty());
         assertThrows(CarNotFoundException.class, () -> carService.updateCar(carId, car));
     }
 
     @Test
-    public void testRemoveCar(){
+    void testRemoveCar(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         carService.removeCar(carId);
         Mockito.verify(carRepository, Mockito.times(1)).delete(car);
     }
 
     @Test
-    public void testRemoveCarException(){
+    void testRemoveCarException(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.empty());
         assertThrows(CarNotFoundException.class, () -> carService.removeCar(carId));
     }
+
     @Test
-    public void testAddModelToCar(){
+    void testAddModelToCar(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModel));
 
@@ -161,7 +161,7 @@ public class CarServiceTest {
     }
 
     @Test
-    public void testAddModelWithCarToCar(){
+    void testAddModelWithCarToCar(){
         Mockito.when(carRepository.findById(carList.get(0).getId())).thenReturn(Optional.of(carList.get(0)));
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModelWithCar));
 
@@ -169,27 +169,27 @@ public class CarServiceTest {
     }
 
     @Test
-    public void testAddModelToCarExceptionCarNotFound(){
+    void testAddModelToCarExceptionCarNotFound(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.empty());
         assertThrows(CarNotFoundException.class, () -> carService.addModelToCar(carId, modelId));
     }
 
     @Test
-    public void testAddModelToCarExceptionModelNotFound(){
+    void testAddModelToCarExceptionModelNotFound(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.empty());
         assertThrows(ModelNotFoundException.class, () -> carService.addModelToCar(carId, modelId));
     }
 
     @Test
-    public void testRemoveModelFromCar(){
+    void testRemoveModelFromCar(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModel));
         assertThrows(ModelIsNotAssignedException.class, () -> carService.removeModelFromCar(carId, modelId));
     }
 
     @Test
-    public void testRemoveModelWithCarFromCar(){
+    void testRemoveModelWithCarFromCar(){
         Mockito.when(carRepository.findById(carList.get(0).getId())).thenReturn(Optional.of(carList.get(0)));
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModelWithCar));
         Mockito.when(carRepository.save(carList.get(0))).thenReturn(carList.get(0));
@@ -199,20 +199,20 @@ public class CarServiceTest {
     }
 
     @Test
-    public void testRemoveModelFromCarExceptionCarNotFound(){
+    void testRemoveModelFromCarExceptionCarNotFound(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.empty());
         assertThrows(CarNotFoundException.class, () -> carService.removeModelFromCar(carId, modelId));
     }
 
     @Test
-    public void testRemoveModelFromCarExceptionModelNotFound(){
+    void testRemoveModelFromCarExceptionModelNotFound(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.empty());
         assertThrows(ModelNotFoundException.class, () -> carService.removeModelFromCar(carId, modelId));
     }
 
     @Test
-    public void testAddColorToCar(){
+    void testAddColorToCar(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.of(carColor));
 
@@ -221,40 +221,40 @@ public class CarServiceTest {
     }
 
     @Test
-    public void testAddColorToCarExceptionCarNotFound(){
+    void testAddColorToCarExceptionCarNotFound(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.empty());
         assertThrows(CarNotFoundException.class, () -> carService.addColorToCar(carId, colorId));
     }
 
     @Test
-    public void testAddColorToCarExceptionColorNotFound(){
+    void testAddColorToCarExceptionColorNotFound(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.empty());
         assertThrows(ColorNotFoundException.class, () -> carService.addColorToCar(carId, colorId));
     }
 
     @Test
-    public void testRemoveColorFromCar(){
+    void testRemoveColorFromCar(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.of(carColor));
         carService.removeColorFromCar(carId, colorId);
     }
 
     @Test
-    public void testRemoveColorFromCarExceptionCarNotFound(){
+    void testRemoveColorFromCarExceptionCarNotFound(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.empty());
         assertThrows(CarNotFoundException.class, () -> carService.removeColorFromCar(carId, colorId));
     }
 
     @Test
-    public void testRemoveColorFromCarExceptionColorNotFound(){
+    void testRemoveColorFromCarExceptionColorNotFound(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.empty());
         assertThrows(ColorNotFoundException.class, () -> carService.removeColorFromCar(carId, colorId));
     }
 
     @Test
-    public void testBulkSave(){
+    void testBulkSave(){
         Mockito.when(carRepository.saveAll(carList)).thenReturn(carList);
         List<Car> result = carService.bulkSave(carList);
         assertEquals(result, carList);

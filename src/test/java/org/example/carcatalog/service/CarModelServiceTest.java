@@ -21,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CarModelServiceTest {
+class CarModelServiceTest {
     @Mock
     private CarModelRepository carModelRepository;
     @Mock
@@ -70,14 +70,14 @@ public class CarModelServiceTest {
     }
 
     @Test
-    public void testGetAllModels(){
+    void testGetAllModels(){
         Mockito.when(carModelRepository.findAll()).thenReturn(modelList);
         List<CarModel> result = carModelService.getAllModels();
         assertEquals(result, modelList);
     }
 
     @Test
-    public void testGetModel(){
+    void testGetModel(){
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModel));
         CarModel result = carModelService.getModel(modelId);
         assertNotNull(result);
@@ -85,7 +85,7 @@ public class CarModelServiceTest {
     }
 
     @Test
-    public void testGetModelNoCache(){
+    void testGetModelNoCache(){
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModel));
         modelSimpleCache.clear();
         CarModel result = carModelService.getModel(modelId);
@@ -94,27 +94,27 @@ public class CarModelServiceTest {
     }
 
     @Test
-    public void testGetModelException(){
+    void testGetModelException(){
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.empty());
         assertThrows(ModelNotFoundException.class, () -> carModelService.getModel(modelId));
     }
 
     @Test
-    public void testGetCarModelsByCar(){
+    void testGetCarModelsByCar(){
         Mockito.when(carModelRepository.getCarModelsByCar(carId)).thenReturn(modelList);
         List<CarModel> result = carModelService.getCarModelsByCar(carId);
         assertEquals(result, modelList);
     }
 
     @Test
-    public void testGetCarModelsByCarNative(){
+    void testGetCarModelsByCarNative(){
         Mockito.when(carModelRepository.getCarModelsByCarNative(carId)).thenReturn(modelList);
         List<CarModel> result = carModelService.getCarModelsByCarNative(carId);
         assertEquals(result, modelList);
     }
 
     @Test
-    public void testSaveModel(){
+    void testSaveModel(){
         Mockito.when(carModelRepository.save(carModel)).thenReturn(carModel);
         CarModel result = carModelService.saveModel(carModel);
         assertNotNull(result);
@@ -123,41 +123,41 @@ public class CarModelServiceTest {
     }
 
     @Test
-    public void testUpdateModel(){
+    void testUpdateModel(){
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModel));
         CarModel result = carModelService.updateModel(modelId, carModel);
         assertEquals(result, carModel);
     }
 
     @Test
-    public void testUpdateModelWithCar(){
+    void testUpdateModelWithCar(){
         Mockito.when(carModelRepository.findById(modelList.get(0).getId())).thenReturn(Optional.of(modelList.get(0)));
         CarModel result = carModelService.updateModel(modelList.get(0).getId(), modelList.get(0));
         assertEquals(result, modelList.get(0));
     }
 
     @Test
-    public void testUpdateModelException(){
+    void testUpdateModelException(){
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.empty());
         assertThrows(ModelNotFoundException.class, () -> carModelService.updateModel(modelId, carModel));
     }
 
     @Test
-    public void testRemoveModel(){
+    void testRemoveModel(){
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModel));
         carModelService.removeModel(modelId);
         Mockito.verify(carModelRepository, Mockito.times(1)).delete(carModel);
     }
 
     @Test
-    public void testRemoveModelWithCar(){
+    void testRemoveModelWithCar(){
         Mockito.when(carModelRepository.findById(modelList.get(0).getId())).thenReturn(Optional.of(modelList.get(0)));
         carModelService.removeModel(modelList.get(0).getId());
         Mockito.verify(carModelRepository, Mockito.times(1)).delete(modelList.get(0));
     }
 
     @Test
-    public void testRemoveModelException(){
+    void testRemoveModelException(){
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.empty());
         assertThrows(ModelNotFoundException.class, () -> carModelService.removeModel(modelId));
     }
