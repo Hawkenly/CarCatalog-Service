@@ -88,8 +88,8 @@ public class CarModelServiceTest {
 
     @Test
     public void testGetCarModelsByCarNative(){
-        Mockito.when(carModelRepository.getCarModelsByCar(carId)).thenReturn(modelList);
-        List<CarModel> result = carModelService.getCarModelsByCar(carId);
+        Mockito.when(carModelRepository.getCarModelsByCarNative(carId)).thenReturn(modelList);
+        List<CarModel> result = carModelService.getCarModelsByCarNative(carId);
         assertEquals(result, modelList);
     }
 
@@ -97,7 +97,6 @@ public class CarModelServiceTest {
     public void testSaveModel(){
         Mockito.when(carModelRepository.save(carModel)).thenReturn(carModel);
         CarModel result = carModelService.saveModel(carModel);
-
         assertNotNull(result);
         assertEquals(result, carModel);
         Mockito.verify(carModelRepository, Mockito.times(1)).save(carModel);

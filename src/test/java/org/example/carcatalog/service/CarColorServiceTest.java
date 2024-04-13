@@ -1,5 +1,6 @@
 package org.example.carcatalog.service;
 
+import org.example.carcatalog.model.Car;
 import org.example.carcatalog.model.CarColor;
 import org.example.carcatalog.model.exception.ColorNotFoundException;
 import org.example.carcatalog.repository.CarColorRepository;
@@ -39,7 +40,21 @@ public class CarColorServiceTest {
     void setUp() {
         carColor = new CarColor();
         carColor.setId(colorId);
-        carColor.setColor("black...");
+        carColor.setColor("testColor");
+
+        List<Car> carList = new ArrayList<>();
+
+        for(int i = 0; i < NUM_OF_REPEATS; i++) {
+            Car car = new Car();
+            car.setId((long) i);
+            car.setName("testCar");
+            car.setPopular("testPopular");
+            car.setCountry("testCountry");
+            car.addColor(carColor);
+            carList.add(car);
+        }
+
+        carColor.setCars(carList);
     }
 
     @BeforeAll
@@ -48,7 +63,7 @@ public class CarColorServiceTest {
         for(int i = 0; i < NUM_OF_REPEATS; i++) {
             CarColor carColor = new CarColor();
             carColor.setId((long) i);
-            carColor.setColor("black" + i);
+            carColor.setColor("testColor" + i);
             colorList.add(carColor);
         }
     }
