@@ -35,7 +35,7 @@ public class CarModelServiceTest {
 
     private CarModel carModel;
 
-    private final Long modelId = 33L;
+    private final Long modelId = 1L;
 
     private final Long carId = 52L;
 
@@ -43,9 +43,7 @@ public class CarModelServiceTest {
 
     @BeforeEach
     void setUp(){
-        carModel = new CarModel();
-        carModel.setId(modelId);
-        carModel.setModel("testModel");
+        carModel = modelList.get(0);
 
         Car car = new Car();
         car.setId(carId);
@@ -53,7 +51,7 @@ public class CarModelServiceTest {
         car.setPopular("testPopular");
         car.setCountry("testCountry");
 
-        car.addModel(carModel);
+        car.setModels(modelList);
         carModel.setCar(car);
 
         modelSimpleCache.put(modelId.toString(), carModel);
@@ -64,7 +62,7 @@ public class CarModelServiceTest {
         modelList = new ArrayList<>();
         for(int i=0; i<NUM_OF_REPEATS; i++){
             CarModel carModel = new CarModel();
-            carModel.setId((long)i);
+            carModel.setId((long)i+1);
             carModel.setModel("testModel" + i);
             modelList.add(carModel);
         }
