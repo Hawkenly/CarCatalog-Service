@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CarModelServiceTest {
     @Mock
     private CarModelRepository carModelRepository;
-
     @Mock
     private SimpleCache<String, Object> modelSimpleCache;
 

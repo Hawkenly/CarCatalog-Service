@@ -4,9 +4,7 @@ import org.example.carcatalog.cache.SimpleCache;
 import org.example.carcatalog.model.Car;
 import org.example.carcatalog.model.CarColor;
 import org.example.carcatalog.model.CarModel;
-import org.example.carcatalog.model.exception.CarNotFoundException;
-import org.example.carcatalog.model.exception.ColorNotFoundException;
-import org.example.carcatalog.model.exception.ModelNotFoundException;
+import org.example.carcatalog.model.exception.*;
 import org.example.carcatalog.repository.CarColorRepository;
 import org.example.carcatalog.repository.CarModelRepository;
 import org.example.carcatalog.repository.CarRepository;
@@ -46,7 +44,7 @@ public class CarServiceTest {
 
     private static List<Car> carList;
 
-    private Car car, carWithModel;
+    private Car car;
 
     private CarModel carModel, carModelWithCar;
 
@@ -68,26 +66,21 @@ public class CarServiceTest {
         car.setPopular("testPopular");
         car.setCountry("testCountry");
 
-        carWithModel = new Car();
-        carWithModel.setId(carId);
-        carWithModel.setName("testName");
-        carWithModel.setPopular("testPopular");
-        carWithModel.setCountry("testCountry");
-
         carModel = new CarModel();
         carModel.setId(modelId);
         carModel.setModel("testModel");
-
-        carModelWithCar = new CarModel();
-        carModelWithCar.setId(modelId);
-        carModelWithCar.setModel("testModel");
 
         carColor = new CarColor();
         carColor.setId(colorId);
         carColor.setColor("testColor");
 
-        carWithModel.addModel(carModelWithCar);
-        carModelWithCar.setCar(carWithModel);
+        carModelWithCar = new CarModel();
+        carModelWithCar.setId(modelId);
+        carModelWithCar.setModel("testModel");
+
+        carModelWithCar.setCar(carList.get(0));
+        carList.get(0).addModel(carModelWithCar);
+
     }
 
     @BeforeAll
@@ -95,7 +88,7 @@ public class CarServiceTest {
         carList = new ArrayList<>();
         for(int i=0; i<NUM_OF_REPEATS; i++){
             Car car = new Car();
-            car.setId((long)i);
+            car.setId((long)i+1);
             car.setName("testName" + i);
             car.setPopular("testPopular" + i);
             car.setCountry("testCountry" + i);
@@ -168,6 +161,14 @@ public class CarServiceTest {
     }
 
     @Test
+    public void testAddModelWithCarToCar(){
+        Mockito.when(carRepository.findById(carList.get(0).getId())).thenReturn(Optional.of(carList.get(0)));
+        Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModelWithCar));
+
+        assertThrows(ModelIsAlreadyAssignedException.class, () -> carService.addModelToCar(carList.get(0).getId(),modelId));
+    }
+
+    @Test
     public void testAddModelToCarExceptionCarNotFound(){
         Mockito.when(carRepository.findById(carId)).thenReturn(Optional.empty());
         assertThrows(CarNotFoundException.class, () -> carService.addModelToCar(carId, modelId));
@@ -182,13 +183,19 @@ public class CarServiceTest {
 
     @Test
     public void testRemoveModelFromCar(){
-        Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(carWithModel));
+        Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
+        Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModel));
+        assertThrows(ModelIsNotAssignedException.class, () -> carService.removeModelFromCar(carId, modelId));
+    }
+
+    @Test
+    public void testRemoveModelWithCarFromCar(){
+        Mockito.when(carRepository.findById(carList.get(0).getId())).thenReturn(Optional.of(carList.get(0)));
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModelWithCar));
-        Mockito.when(carRepository.save(carWithModel)).thenReturn(carWithModel);
+        Mockito.when(carRepository.save(carList.get(0))).thenReturn(carList.get(0));
 
-        carService.removeModelFromCar(carId, modelId);
-
-        Mockito.verify(carRepository, Mockito.times(1)).save(carWithModel);
+        carService.removeModelFromCar(carList.get(0).getId(), modelId);
+        Mockito.verify(carRepository, Mockito.times(1)).save(carList.get(0));
     }
 
     @Test
@@ -199,7 +206,7 @@ public class CarServiceTest {
 
     @Test
     public void testRemoveModelFromCarExceptionModelNotFound(){
-        Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(carWithModel));
+        Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.empty());
         assertThrows(ModelNotFoundException.class, () -> carService.removeModelFromCar(carId, modelId));
     }
