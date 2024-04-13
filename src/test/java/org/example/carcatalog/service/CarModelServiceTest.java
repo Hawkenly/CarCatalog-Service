@@ -86,6 +86,15 @@ public class CarModelServiceTest {
     }
 
     @Test
+    public void testGetModelNoCache(){
+        Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModel));
+        modelSimpleCache.clear();
+        CarModel result = carModelService.getModel(modelId);
+        assertNotNull(result);
+        assertEquals(result, carModel);
+    }
+
+    @Test
     public void testGetModelException(){
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.empty());
         assertThrows(ModelNotFoundException.class, () -> carModelService.getModel(modelId));
@@ -119,6 +128,13 @@ public class CarModelServiceTest {
         Mockito.when(carModelRepository.findById(modelId)).thenReturn(Optional.of(carModel));
         CarModel result = carModelService.updateModel(modelId, carModel);
         assertEquals(result, carModel);
+    }
+
+    @Test
+    public void testUpdateModelWithCar(){
+        Mockito.when(carModelRepository.findById(modelList.get(0).getId())).thenReturn(Optional.of(modelList.get(0)));
+        CarModel result = carModelService.updateModel(modelList.get(0).getId(), modelList.get(0));
+        assertEquals(result, modelList.get(0));
     }
 
     @Test
