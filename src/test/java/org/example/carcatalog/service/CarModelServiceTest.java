@@ -1,6 +1,7 @@
 package org.example.carcatalog.service;
 
 import org.example.carcatalog.cache.SimpleCache;
+import org.example.carcatalog.model.Car;
 import org.example.carcatalog.model.CarModel;
 import org.example.carcatalog.model.exception.ModelNotFoundException;
 import org.example.carcatalog.repository.CarModelRepository;
@@ -45,6 +46,17 @@ public class CarModelServiceTest {
         carModel = new CarModel();
         carModel.setId(modelId);
         carModel.setModel("testModel");
+
+        Car car = new Car();
+        car.setId(carId);
+        car.setName("testName");
+        car.setPopular("testPopular");
+        car.setCountry("testCountry");
+
+        car.addModel(carModel);
+        carModel.setCar(car);
+
+        modelSimpleCache.put(modelId.toString(), carModel);
     }
 
     @BeforeAll
