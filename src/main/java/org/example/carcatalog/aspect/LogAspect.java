@@ -4,12 +4,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.example.carcatalog.counter.CounterService;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 public class LogAspect {
     private final Logger logger = LogManager.getLogger(this.getClass());
+
+    private final CounterService counterService = CounterService.getCounterService();
+
+    @Pointcut("@annotation(CounterAspect)")
+    public void methodsToCount() {
+    }
 
     @Pointcut("@annotation(AspectAnnotation)")
     public void methodsWithAspectAnnotation() {
@@ -19,6 +26,11 @@ public class LogAspect {
             + "|| execution(* org.example.carcatalog.advice.*.*(..))"
             + "|| execution(* org.example.carcatalog.controller.*.*(..))")
     public void callAllMethods() {
+    }
+    @Before("methodsToCount()")
+    public void incrementCounter() {
+        counterService.incrementCounter();
+        System.out.println(counterService.getCounter());
     }
 
     @Before("callAllMethods()")

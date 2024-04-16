@@ -35,9 +35,7 @@ public class CarColorService {
     public void removeColor(final Long id) {
         CarColor color = getColor(id);
         List<Car> cars = color.getCars();
-        for (Car car: cars) {
-            car.getColors().remove(color);
-        }
+        cars.stream().forEach(s -> s.getColors().remove(color));
         carColorRepository.delete(color);
     }
 }

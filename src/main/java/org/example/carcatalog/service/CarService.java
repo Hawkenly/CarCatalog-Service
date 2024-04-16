@@ -3,6 +3,7 @@ package org.example.carcatalog.service;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.carcatalog.aspect.AspectAnnotation;
+import org.example.carcatalog.aspect.CounterAspect;
 import org.example.carcatalog.cache.SimpleCache;
 import org.example.carcatalog.model.Car;
 import org.example.carcatalog.model.CarColor;
@@ -26,10 +27,12 @@ public class CarService {
     private final CarColorRepository carColorRepository;
     private final SimpleCache<String, Object> carSimpleCache;
 
+    @CounterAspect
     @AspectAnnotation
     public List<Car> getAllCars() {
         return carRepository.findAll();
     }
+    @CounterAspect
     @AspectAnnotation
     public Car getCar(final Long id) {
         Car car;
@@ -41,13 +44,14 @@ public class CarService {
         }
         return car;
     }
+    @CounterAspect
     @AspectAnnotation
     public Car saveCar(final Car car) {
        carRepository.save(car);
        carSimpleCache.put(car.getId().toString(), car);
        return car;
    }
-
+    @CounterAspect
     @AspectAnnotation
     @Transactional
     public Car updateCar(final Long id, final Car car) {
@@ -59,68 +63,74 @@ public class CarService {
         carSimpleCache.put(id.toString(), car);
         return carToUpdate;
     }
-
+    @CounterAspect
     @AspectAnnotation
     public void removeCar(final Long id) {
         Car car = getCar(id);
         carRepository.delete(car);
         carSimpleCache.remove(id.toString());
    }
-
+    @CounterAspect
     @AspectAnnotation
-   @Transactional
-   public Car addModelToCar(final Long carId, final Long modelId) {
-       Car car = getCar(carId);
-       CarModel carModel = carModelRepository.findById(modelId).orElseThrow(() -> new ModelNotFoundException(modelId));
-       if (Objects.nonNull(carModel.getCar())) {
+    @Transactional
+    public Car addModelToCar(final Long carId, final Long modelId) {
+        Car car = getCar(carId);
+        CarModel carModel = carModelRepository.findById(modelId)
+                .orElseThrow(() -> new ModelNotFoundException(modelId));
+        if (Objects.nonNull(carModel.getCar())) {
             throw new ModelIsAlreadyAssignedException(modelId,
                     carModel.getCar().getId());
-       }
-       car.addModel(carModel);
-       carModel.setCar(car);
-       carSimpleCache.remove(carId.toString());
-       carSimpleCache.put(carId.toString(), car);
-       return car;
-   }
+        }
+        car.addModel(carModel);
+        carModel.setCar(car);
+        carSimpleCache.remove(carId.toString());
+        carSimpleCache.put(carId.toString(), car);
+        return car;
+    }
+    @CounterAspect
     @AspectAnnotation
-   @Transactional
-   public void removeModelFromCar(final Long carId, final Long modelId) {
-       Car car = getCar(carId);
-       CarModel carModel = carModelRepository.findById(modelId).orElseThrow(() -> new ModelNotFoundException(modelId));
-       if (Objects.isNull(carModel.getCar())) {
-           throw new ModelIsNotAssignedException(modelId);
-       }
-       car.removeModel(carModel);
-       carModel.setCar(null);
-       carSimpleCache.clear();
-       carRepository.save(car);
-   }
+    @Transactional
+    public void removeModelFromCar(final Long carId, final Long modelId) {
+        Car car = getCar(carId);
+        CarModel carModel = carModelRepository.findById(modelId)
+                .orElseThrow(() -> new ModelNotFoundException(modelId));
+        if (Objects.isNull(carModel.getCar())) {
+            throw new ModelIsNotAssignedException(modelId);
+        }
+        car.removeModel(carModel);
+        carModel.setCar(null);
+        carSimpleCache.clear();
+        carRepository.save(car);
+    }
+    @CounterAspect
     @AspectAnnotation
-   @Transactional
-   public Car addColorToCar(final Long carId, final Long colorId) {
-       Car car = getCar(carId);
-       CarColor carColor = carColorRepository.findById(colorId).orElseThrow(() -> new ColorNotFoundException(colorId));
-       List<Car> cars = carColor.getCars();
-       int index = -1;
-       index = cars.indexOf(car);
-       if (index != 1) {
-           return car;
-       }
-       car.addColor(carColor);
-       carColor.addCar(car);
-       return car;
-   }
-
-   @AspectAnnotation
-   @Transactional
-   public void removeColorFromCar(final Long carId, final Long colorId) {
-       Car car = getCar(carId);
-       CarColor carColor = carColorRepository.findById(colorId).orElseThrow(() -> new ColorNotFoundException(colorId));
-       car.removeColor(carColor);
-       carColor.removeCar(car);
-   }
-
-   @AspectAnnotation
+    @Transactional
+    public Car addColorToCar(final Long carId, final Long colorId) {
+        Car car = getCar(carId);
+        CarColor carColor = carColorRepository.findById(colorId)
+                .orElseThrow(() -> new ColorNotFoundException(colorId));
+        List<Car> cars = carColor.getCars();
+        int index = -1;
+        index = cars.indexOf(car);
+        if (index != 1) {
+            return car;
+        }
+        car.addColor(carColor);
+        carColor.addCar(car);
+        return car;
+    }
+    @CounterAspect
+    @AspectAnnotation
+    @Transactional
+    public void removeColorFromCar(final Long carId, final Long colorId) {
+        Car car = getCar(carId);
+        CarColor carColor = carColorRepository.findById(colorId)
+                .orElseThrow(() -> new ColorNotFoundException(colorId));
+        car.removeColor(carColor);
+        carColor.removeCar(car);
+    }
+    @CounterAspect
+    @AspectAnnotation
     public List<Car> bulkSave(final List<Car> cars) {
        carRepository.saveAll(cars);
        return cars;
