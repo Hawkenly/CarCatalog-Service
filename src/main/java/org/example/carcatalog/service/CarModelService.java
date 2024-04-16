@@ -66,6 +66,7 @@ public class CarModelService {
             car.removeModel(model);
         }
         carModelRepository.delete(model);
+
         modelSimpleCache.remove(id.toString());
     }
 }
