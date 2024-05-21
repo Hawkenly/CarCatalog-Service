@@ -40,7 +40,7 @@ class CarColorServiceTest {
     void setUp() {
         carColor = new CarColor();
         carColor.setId(colorId);
-        carColor.setColor("testColor");
+        carColor.setColorName("testColor");
 
         List<Car> carList = new ArrayList<>();
 
@@ -63,7 +63,7 @@ class CarColorServiceTest {
         for(int i = 0; i < NUM_OF_REPEATS; i++) {
             CarColor carColor = new CarColor();
             carColor.setId((long) i);
-            carColor.setColor("testColor" + i);
+            carColor.setColorName("testColor" + i);
             colorList.add(carColor);
         }
     }

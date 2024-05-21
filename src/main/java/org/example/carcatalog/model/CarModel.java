@@ -14,7 +14,7 @@ public class CarModel {
     private Long id;
 
     @NotBlank
-    private String model;
+    private String modelName;
 
     @JsonIgnore
     @ManyToOne

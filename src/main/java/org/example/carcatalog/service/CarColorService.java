@@ -23,19 +23,22 @@ public class CarColorService {
                 orElseThrow(() -> new ColorNotFoundException(id));
     }
     public CarColor saveColor(final CarColor color) {
-        carColorRepository.save(color);
-        return color;
+        if (carColorRepository.findByColorName(color.getColorName()) == null) {
+            carColorRepository.save(color);
+            return color;
+        }
+        return carColorRepository.findByColorName(color.getColorName());
     }
     @Transactional
     public CarColor updateColor(final Long id, final CarColor color) {
         CarColor colorToUpdate = getColor(id);
-        colorToUpdate.setColor(color.getColor());
+        colorToUpdate.setColorName(color.getColorName());
         return colorToUpdate;
     }
     public void removeColor(final Long id) {
         CarColor color = getColor(id);
         List<Car> cars = color.getCars();
-        cars.stream().forEach(s -> s.getColors().remove(color));
+        cars.forEach(s -> s.getColors().remove(color));
         carColorRepository.delete(color);
     }
 }

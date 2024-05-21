@@ -67,15 +67,15 @@ class CarServiceTest {
 
         carModel = new CarModel();
         carModel.setId(modelId);
-        carModel.setModel("testModel");
+        carModel.setModelName("testModel");
 
         carColor = new CarColor();
         carColor.setId(colorId);
-        carColor.setColor("testColor");
+        carColor.setColorName("testColor");
 
         carModelWithCar = new CarModel();
         carModelWithCar.setId(modelId);
-        carModelWithCar.setModel("testModel");
+        carModelWithCar.setModelName("testModel");
 
         carModelWithCar.setCar(carList.get(0));
         carList.get(0).addModel(carModelWithCar);

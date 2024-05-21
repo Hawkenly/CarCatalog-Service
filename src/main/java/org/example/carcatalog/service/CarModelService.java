@@ -40,23 +40,30 @@ public class CarModelService {
         return carModelRepository.getCarModelsByCarNative(id);
     }
     public CarModel saveModel(final CarModel model) {
-        carModelRepository.save(model);
-        if (!modelSimpleCache.containsKey(model.getId().toString())) {
+        if (carModelRepository.findByModelName(model.getModelName()) == null) {
+            carModelRepository.save(model);
+        }
+        if (!modelSimpleCache.containsValue(model)) {
             modelSimpleCache.put(model.getId().toString(), model);
         }
-        return model;
+        return carModelRepository.findByModelName(model.getModelName());
     }
     @Transactional
     public CarModel updateModel(final Long id, final CarModel model) {
-        CarModel modelToUpdate = getModel(id);
+        CarModel modelToUpdate = carModelRepository.findById(id)
+                .orElseThrow(() -> new ModelNotFoundException(id));
         Car car = modelToUpdate.getCar();
         if (Objects.nonNull(car)) {
             car.removeModel(modelToUpdate);
-            car.addModel(model);
+            modelSimpleCache.remove(id.toString());
+            modelToUpdate.setModelName(model.getModelName());
+            modelSimpleCache.put(id.toString(), modelToUpdate);
+            car.addModel(modelToUpdate);
+        } else {
+            modelSimpleCache.remove(id.toString());
+            modelToUpdate.setModelName(model.getModelName());
+            modelSimpleCache.put(id.toString(), modelToUpdate);
         }
-        modelSimpleCache.remove(id.toString());
-        modelToUpdate.setModel(model.getModel());
-        modelSimpleCache.put(id.toString(), modelToUpdate);
         return modelToUpdate;
     }
     public void removeModel(final Long id) {
@@ -66,7 +73,6 @@ public class CarModelService {
             car.removeModel(model);
         }
         carModelRepository.delete(model);
-
         modelSimpleCache.remove(id.toString());
     }
 }

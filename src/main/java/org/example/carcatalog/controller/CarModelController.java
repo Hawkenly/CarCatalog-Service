@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("models")
 @AllArgsConstructor
+@CrossOrigin("http://localhost:3000")
 public  class CarModelController {
     /**
      * Поле сервис модели автомобиля.
@@ -63,7 +64,7 @@ public  class CarModelController {
      */
     @AspectAnnotation
     @PostMapping("add")
-    public CarModel saveCar(@Valid @RequestBody final CarModel model) {
+    public CarModel saveModel(@Valid @RequestBody final CarModel model) {
         return carModelService.saveModel(model);
     }
     /**
@@ -74,7 +75,7 @@ public  class CarModelController {
      */
     @AspectAnnotation
     @PutMapping("update")
-    public CarModel updateCar(@RequestParam final Long id,
+    public CarModel updateModel(@RequestParam final Long id,
                               @Valid @RequestBody final CarModel model) {
         return carModelService.updateModel(id, model);
     }
@@ -84,7 +85,7 @@ public  class CarModelController {
      */
     @AspectAnnotation
     @DeleteMapping("delete")
-    public void removeCar(@RequestParam final Long id) {
+    public void removeModel(@RequestParam final Long id) {
         carModelService.removeModel(id);
     }
 }

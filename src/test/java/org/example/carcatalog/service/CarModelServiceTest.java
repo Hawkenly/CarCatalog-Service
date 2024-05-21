@@ -44,7 +44,7 @@ class CarModelServiceTest {
     void setUp(){
         carModel = new CarModel();
         carModel.setId(modelId);
-        carModel.setModel("testModel");
+        carModel.setModelName("testModel");
 
         Car car = new Car();
         car.setId(carId);
@@ -64,7 +64,7 @@ class CarModelServiceTest {
         for(int i=0; i<NUM_OF_REPEATS; i++){
             CarModel carModel = new CarModel();
             carModel.setId((long)i+1);
-            carModel.setModel("testModel" + i);
+            carModel.setModelName("testModel" + i);
             modelList.add(carModel);
         }
     }
