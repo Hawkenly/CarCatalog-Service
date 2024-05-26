@@ -76,7 +76,6 @@ public class CarService {
             throw new CarNotFoundException(id);
         }
         carRepository.deleteById(id);
-        //carSimpleCache.remove(id.toString());
     }
 
     @CounterAspect

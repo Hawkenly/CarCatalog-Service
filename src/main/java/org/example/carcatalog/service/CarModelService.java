@@ -41,7 +41,7 @@ public class CarModelService {
     }
     public CarModel saveModel(final CarModel model) {
         if (carModelRepository.findByModelName(model.getModelName()) == null) {
-            carModelRepository.save(model);
+            return carModelRepository.save(model);
         }
         if (!modelSimpleCache.containsValue(model)) {
             modelSimpleCache.put(model.getId().toString(), model);

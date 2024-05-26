@@ -30,9 +30,6 @@ class CarServiceTest {
     private CarRepository carRepository;
 
     @Mock
-    private SimpleCache<String, Object> carSimpleCache;
-
-    @Mock
     private CarModelRepository carModelRepository;
 
     @Mock
@@ -140,14 +137,14 @@ class CarServiceTest {
 
     @Test
     void testRemoveCar(){
-        Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
+        Mockito.when(carRepository.existsById(carId)).thenReturn(true);
         carService.removeCar(carId);
-        Mockito.verify(carRepository, Mockito.times(1)).delete(car);
+        Mockito.verify(carRepository, Mockito.times(1)).deleteById(carId);
     }
 
     @Test
     void testRemoveCarException(){
-        Mockito.when(carRepository.findById(carId)).thenReturn(Optional.empty());
+        Mockito.when(carRepository.existsById(carId)).thenReturn(false);
         assertThrows(CarNotFoundException.class, () -> carService.removeCar(carId));
     }
 
@@ -212,13 +209,35 @@ class CarServiceTest {
     }
 
     @Test
-    void testAddColorToCar(){
-        Mockito.when(carRepository.findById(carId)).thenReturn(Optional.of(car));
-        Mockito.when(carColorRepository.findById(colorId)).thenReturn(Optional.of(carColor));
+    void testAddColorToCarColorAlreadyExists(){
+        car.getColors().add(carColor);
 
-        Car result = carService.addColorToCar(carId, colorId);
-        assertEquals(result, car);
+        Mockito.when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+        Mockito.when(carColorRepository.findById(1L)).thenReturn(Optional.of(carColor));
+
+        Car result = carService.addColorToCar(1L, 1L);
+
+        assertEquals(1, car.getColors().size());
+        assertTrue(car.getColors().contains(carColor));
+        Mockito.verify(carRepository, Mockito.times(1)).findById(1L);
+        Mockito.verify(carColorRepository, Mockito.times(1)).findById(1L);
+        Mockito.verify(carRepository, Mockito.times(1)).save(car);
     }
+
+    @Test
+    void testAddColorToCarr(){
+        Mockito.when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+        Mockito.when(carColorRepository.findById(1L)).thenReturn(Optional.of(carColor));
+
+        Car result = carService.addColorToCar(1L, 1L);
+
+        assertEquals(1, car.getColors().size());
+        assertTrue(car.getColors().contains(carColor));
+        Mockito.verify(carRepository, Mockito.times(1)).findById(1L);
+        Mockito.verify(carColorRepository, Mockito.times(1)).findById(1L);
+        Mockito.verify(carRepository, Mockito.times(1)).save(car);
+    }
+
 
     @Test
     void testAddColorToCarExceptionCarNotFound(){

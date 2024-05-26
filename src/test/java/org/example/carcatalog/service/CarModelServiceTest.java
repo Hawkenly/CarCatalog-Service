@@ -114,12 +114,27 @@ class CarModelServiceTest {
     }
 
     @Test
-    void testSaveModel(){
+    void testSaveModelNoInRep(){
+        Mockito.when(carModelRepository.findByModelName(carModel.getModelName())).thenReturn(null);
         Mockito.when(carModelRepository.save(carModel)).thenReturn(carModel);
+
         CarModel result = carModelService.saveModel(carModel);
         assertNotNull(result);
-        assertEquals(result, carModel);
+        assertEquals(carModel, result);
         Mockito.verify(carModelRepository, Mockito.times(1)).save(carModel);
+        Mockito.verify(carModelRepository, Mockito.times(1)).findByModelName(carModel.getModelName());
+    }
+
+    @Test
+    void testSaveModelInRep(){
+        Mockito.when(carModelRepository.findByModelName(carModel.getModelName())).thenReturn(carModel);
+
+        CarModel result = carModelService.saveModel(carModel);
+
+        assertNotNull(result);
+        assertEquals(carModel, result);
+        Mockito.verify(carModelRepository, Mockito.never()).save(carModel);
+        Mockito.verify(carModelRepository, Mockito.times(2)).findByModelName(carModel.getModelName());
     }
 
     @Test
