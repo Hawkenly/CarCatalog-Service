@@ -6,7 +6,9 @@ COPY pom.xml .
 RUN mvn dependency:go-offline
 
 COPY src ./src
-RUN mvn package -DskipTests  # Пропускаем запуск тестов
+RUN mvn package -DskipTests
+
+RUN mvn dependency:purge-local-repository -DreResolve=false
 
 FROM openjdk:17-jdk-slim
 
