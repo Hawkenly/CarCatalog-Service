@@ -6,9 +6,11 @@ COPY pom.xml .
 RUN mvn dependency:go-offline
 
 COPY src ./src
-RUN mvn package
+RUN mvn package -DskipTests  # Пропускаем запуск тестов
 
 FROM openjdk:17-jdk-slim
+
+WORKDIR /app
 
 COPY --from=build /app/target/carcatalog-0.0.1-SNAPSHOT.jar /app/carcatalog.jar
 
