@@ -2,10 +2,10 @@ FROM maven:3.8.4-openjdk-17 as build
 
 WORKDIR /app
 
-COPY pom.xml .
+COPY ./pom.xml pom.xml
 RUN mvn dependency:go-offline
 
-COPY src ./src
+COPY ./src src/
 RUN mvn package -DskipTests
 
 RUN mvn dependency:purge-local-repository -DreResolve=false
