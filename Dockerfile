@@ -8,7 +8,7 @@ RUN mvn package -DskipTests
 
 RUN mvn dependency:purge-local-repository -DreResolve=false
 
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-alpine
 
 WORKDIR /app
 
