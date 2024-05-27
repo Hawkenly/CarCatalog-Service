@@ -16,4 +16,6 @@ WORKDIR /app
 
 COPY --from=build /app/target/carcatalog-0.0.1-SNAPSHOT.jar /app/carcatalog.jar
 
+EXPOSE 8080
+
 ENTRYPOINT ["java", "-jar", "/app/carcatalog.jar"]
