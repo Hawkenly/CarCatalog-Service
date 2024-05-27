@@ -1,12 +1,15 @@
-FROM maven:3.9.2-eclipse-temurin-17-alpine as builder
+FROM maven:3.8.4-openjdk-17 as build
 
-COPY . .
+WORKDIR /app
 
-FROM eclipse-temurin:17-jre-alpine
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-COPY --from=builder target/*.jar app.jar
-COPY ./init.sql /docker-entrypoint-initdb.d/
+COPY src ./src
+RUN mvn package
 
-EXPOSE 8080
+FROM openjdk:17-jdk-slim
 
-CMD ["java","-jar","app.jar"]
+COPY --from=build /app/target/carcatalog-0.0.1-SNAPSHOT.jar /app/carcatalog.jar
+
+ENTRYPOINT ["java", "-jar", "/app/carcatalog.jar"]
