@@ -29,9 +29,6 @@ services:
       - backend
 
   frontend:
-    build:
-      context: D://IntelliJIDEA/Projects/frontend
-      dockerfile: Dockerfile
     ports:
       - "3000:80"
     networks:
