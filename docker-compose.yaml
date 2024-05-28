@@ -10,6 +10,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - backend
 
 
 
@@ -25,6 +27,21 @@ services:
       - "8080:8080"
     depends_on:
       - db
+    networks:
+      - backend
+
+  frontend:
+    build:
+      context: ./directory1
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    networks:
+      - frontend
 
 volumes:
   postgres_data:
+
+networks:
+  backend:
+  frontend:
