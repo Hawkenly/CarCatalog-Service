@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("colors")
 @AllArgsConstructor
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class CarColorController {
     /**
      * Поле сервис цвета автомобиля.
