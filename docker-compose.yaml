@@ -30,7 +30,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: D://IntellijIDEA/Projects/frontend
       dockerfile: Dockerfile
     ports:
       - "3000:80"
