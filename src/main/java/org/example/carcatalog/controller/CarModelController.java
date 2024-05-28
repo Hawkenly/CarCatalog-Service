@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("models")
 @AllArgsConstructor
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "*")
 public  class CarModelController {
     /**
      * Поле сервис модели автомобиля.
